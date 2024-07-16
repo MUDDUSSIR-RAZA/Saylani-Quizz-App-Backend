@@ -5,7 +5,7 @@ const questionSchema = new Schema({
     _id: { type: Types.ObjectId, default: () => new Types.ObjectId() },
     question_text: { type: String, required: true },
     options: { type: [String], required: true },
-    correct_option_index: { type: Number, required: true },  // Index of the corr
+    correct_option_index: { type: Number, required: true },  // Index of the cor
     time_limit: { type: Number, required: true }
 });
 
