@@ -9,10 +9,10 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/db/user");
 
-exports.createUser = async (userName , email, password) => {
+exports.createUser = async (name, fathername, nic, password, email, phone, city, course_name, batch) => {
   try {
     const hashPass = await bcrypt.hash(password, 12);
-    return await createUser(userName, email, hashPass);
+    return await createUser(name, fathername, nic, email, phone, city, course_name, batch, hashPass);
   } catch (err) {
     if (err.name === "ValidationError") {
       throw err.errors["email"].message;
