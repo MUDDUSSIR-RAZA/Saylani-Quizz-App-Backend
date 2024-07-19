@@ -5,9 +5,15 @@ const router = express.Router();
 router.post("/signUp", async (req, res) => {
   try {
     const resp = await createUser(
-      req.body.userName,
+      req.body.name,
+      req.body.fathername,
+      req.body.nic,
+      req.body.password,
       req.body.email,
-      req.body.password
+      req.body.phone,
+      req.body.city,
+      req.body.course_name,
+      req.body.batch
     );
     res.status(200).json(resp);
   } catch (err) {
