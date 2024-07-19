@@ -1,11 +1,19 @@
 const User = require("../model/db/user");
 
-exports.createUser = async (userName , email, password) => {
+exports.createUser = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
   try {
     const user = new User({
-      userName,
+      name,
+      fathername,
+      nic,
       email,
-      password
+      phone,
+      password,
+      courses: [{
+        course_name,
+        batch,
+        city
+      }]
     });
     try {
       await user.save();
@@ -24,7 +32,7 @@ exports.createUser = async (userName , email, password) => {
   }
 };
 
-exports.updatePassword = async (email , password) => {
+exports.updatePassword = async (email, password) => {
   try {
     const userPassword = {
       password
@@ -39,7 +47,7 @@ exports.updatePassword = async (email , password) => {
   }
 };
 
-exports.updateName = async (email , firstName) => {
+exports.updateName = async (email, firstName) => {
   try {
     const name = {
       firstName
@@ -54,7 +62,7 @@ exports.updateName = async (email , firstName) => {
   }
 };
 
-exports.updatePicture = async (email , picture) => {
+exports.updatePicture = async (email, picture) => {
   try {
     const pic = {
       picture
