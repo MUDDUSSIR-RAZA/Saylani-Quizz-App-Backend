@@ -27,6 +27,7 @@ const userSchema = new Schema({
             message: "Email already exists!"
         }
     },
+    attest: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
     phone: { type: String, required: [true, "Phone number is required."] },
     courses: [courseSchema],
     // results: [{ type: Types.ObjectId, ref: 'Result' }]
