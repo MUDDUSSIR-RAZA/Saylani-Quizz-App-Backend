@@ -3,6 +3,7 @@ const { createUser, login, updatePassword, updateName, updatePicture } = require
 const router = express.Router();
 
 router.post("/signUp", async (req, res) => {
+  console.log("🚀 ~ router.post ~ signUp:", "signUp")
   try {
     const resp = await createUser(
       req.body.name,
