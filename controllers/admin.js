@@ -1,11 +1,20 @@
-const express = require(`express`)
-const { studentRequestModel } = require("../model/admin")
+const express = require(`express`);
+const { getStudentRequestModel, attestStudentRequestModel } = require("../model/admin");
 
-exports.studentRequestsController = async () => {
+exports.getStudentRequestsController = async () => {
     try {
-        const resp = await studentRequestModel();
+        const resp = await getStudentRequestModel();
         return resp
     } catch (error) {
         throw err;
+    }
+}
+
+exports.attestStudentRequestController = async (id , status) => {
+    try {
+        const resp = await attestStudentRequestModel(id , status);
+        return "resp";
+    } catch (error) {
+        throw error;
     }
 }
