@@ -1,16 +1,24 @@
 const express = require("express")
-const { studentRequestsController } = require("../controllers/admin")
+const {  getStudentRequestsController, attestStudentRequestController } = require("../controllers/admin")
 
 const router = express.Router()
 
 
-router.get("/studentRequests", async (req, res) => {
+router.get("/getStudentRequests", async (req, res) => {
     try {
-        console.log("🚀 ~ router.get ~ studentRequests:", "studentRequests")
-        const resp = await studentRequestsController()
+        const resp = await getStudentRequestsController()
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
+    }
+})
+
+router.post("/attestStudentRequest" ,async ( req, res ) => {
+    try{
+        const resp = await attestStudentRequestController(req.body.id, req.body.status)
+        res.status(200).json(resp)
+    } catch(error) {
+        throw error;
     }
 })
 
