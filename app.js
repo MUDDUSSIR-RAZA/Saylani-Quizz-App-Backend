@@ -2,11 +2,9 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
-const cron = require('node-cron');
 
 const auth = require("./routes/auth");
-const product = require("./routes/product");
-const blog = require("./routes/blog");
+const admin = require("./routes/admin");
 
 const app = express();
 const { mongoose } = require("./model/connection");
@@ -28,23 +26,8 @@ app.set("view engine", "ejs");
 app.set("views", "views");
 
 
-//Handle Fake Request 
-app.get("/", (req, res) => {
-  res.send(" Fake Request | Server is alive");
-});
-
-
-// Keep-alive logic With Fake Request 
-cron.schedule('*/10 * * * *', async () => {
-  try {
-      const response = await axios.get('https://sample-next-backend.onrender.com');
-      console.log('Keep-alive ping successful:', response.status);
-  } catch (error) {
-      console.error('Error in keep-alive ping:', error.message);
-  }
-});
-
 app.use("/auth", auth);
+app.use("/admin", admin )
 // app.use("/blog", blog);
 
 app.listen(5000);
