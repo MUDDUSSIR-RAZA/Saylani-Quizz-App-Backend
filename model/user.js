@@ -1,6 +1,6 @@
 const User = require("../model/db/user");
 
-exports.createUser = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
+exports.createUserModel = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
   try {
     const user = new User({
       name,
@@ -17,16 +17,21 @@ exports.createUser = async (name, fathername, nic, email, phone, city, course_na
     });
     try {
       await user.save();
-    } catch (err) {
-      if (err.name === "ValidationError") {
-        const fieldName = Object.keys(err.errors)[0];
-        const fieldErrorMessage = err.errors[fieldName].message;
-        throw fieldErrorMessage;
+      return "Request Send For Approval!";
+    } catch (error) {
+      console.log("🚀 ~ exports.createUser= ~ error:", error)
+      if (error.name === 'ValidationError') {
+        for (field in error.errors) {
+          throw (error.errors[field].message);
+        }
+      }
+      // Check for duplicate key error
+      else if (error.code === 11000) {
+        throw ('NIC already exists!');
       } else {
-        throw err;
+        throw ('An unknown error occurred:', error);
       }
     }
-    return "User Successfully SigUp!";
   } catch (err) {
     throw err;
   }
@@ -77,7 +82,7 @@ exports.updatePicture = async (email, picture) => {
   }
 };
 
-exports.findUser = async (email) => {
+exports.findUserModel = async (email) => {
   try {
     return await User.findOne({ email });
   } catch (err) {
