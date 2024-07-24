@@ -1,15 +1,16 @@
 const express = require("express");
-const { createUser, login, updatePassword, updateName, updatePicture } = require("../controllers/auth");
+const { createUserController , updatePassword, updateName, updatePicture, loginController } = require("../controllers/auth");
 const router = express.Router();
 
 router.post("/signUp", async (req, res) => {
   try {
-    const resp = await createUser(
+    const email = req.body.email.toLowerCase();
+    const resp = await createUserController(
       req.body.name,
       req.body.fathername,
       req.body.nic,
       req.body.password,
-      req.body.email,
+      email,
       req.body.phone,
       req.body.city,
       req.body.course_name,
@@ -23,7 +24,9 @@ router.post("/signUp", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    const resp = await login(req.body.email, req.body.password);
+    const email = req.body.email.toLowerCase();
+    const resp = await loginController(email, req.body.password);
+    console.log("🚀 ~ router.post ~ resp:", resp)
     res.status(200).json(resp)
   } catch (err) {
     res.status(400).json(err);
