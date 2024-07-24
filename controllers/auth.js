@@ -1,6 +1,6 @@
 const {
-  createUser,
-  findUser,
+  createUserModel,
+  findUserModel,
   updatePassword,
   updateName,
   updatePicture,
@@ -9,22 +9,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/db/user");
 
-exports.createUser = async (name, fathername, nic, password, email, phone, city, course_name, batch) => {
+exports.createUserController = async (name, fathername, nic, password, email, phone, city, course_name, batch) => {
   try {
     const hashPass = await bcrypt.hash(password, 12);
-    return await createUser(name, fathername, nic, email, phone, city, course_name, batch, hashPass);
+    return await createUserModel(name, fathername, nic, email, phone, city, course_name, batch, hashPass);
   } catch (err) {
-    if (err.name === "ValidationError") {
-      throw err.errors["email"].message;
-    } else {
-      throw err;
-    }
+    throw err
   }
 };
 
-exports.login = async (email, password) => {
+exports.loginController = async (email, password) => {
   try {
-    const user = await findUser(email);
+    const user = await findUserModel(email);
     if (!user) {
       throw "Wrong Email!";
     }
@@ -34,9 +30,16 @@ exports.login = async (email, password) => {
       throw "Wrong Password!";
     }
 
+    let attest = user.attest;
+    if (attest != "verified") {
+      throw attest
+    }
+
     let userId = user._id;
 
-    let token = jwt.sign({ userId, email }, process.env.SECRET_KEY, {
+    let role = user.role;
+
+    let token = jwt.sign({ userId, email, role }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
     return token;
