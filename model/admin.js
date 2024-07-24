@@ -16,10 +16,11 @@ exports.attestStudentRequestModel = async (id, status) => {
             attest: status
         }
         const result = await User.findOneAndUpdate({ _id: id }, attest, { new: true });
+        console.log("🚀 ~ exports.attestStudentRequestModel= ~ result:", result)
         if (!result) {
             throw "Student not Found!";
         }
-        return "Name Successfully Updated!";
+        return `${result.name} is ${status}`;
     } catch (error) {
         throw error
     }
