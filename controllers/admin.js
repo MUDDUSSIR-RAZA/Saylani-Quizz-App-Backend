@@ -13,7 +13,7 @@ exports.getStudentRequestsController = async () => {
 exports.attestStudentRequestController = async (id , status) => {
     try {
         const resp = await attestStudentRequestModel(id , status);
-        return "resp";
+        return resp;
     } catch (error) {
         throw error;
     }
