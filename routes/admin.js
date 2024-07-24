@@ -16,6 +16,7 @@ router.get("/getStudentRequests", async (req, res) => {
 router.post("/attestStudentRequest" ,async ( req, res ) => {
     try{
         const resp = await attestStudentRequestController(req.body.id, req.body.status)
+        console.log("🚀 ~ router.post ~ resp:", resp)
         res.status(200).json(resp)
     } catch(error) {
         throw error;
