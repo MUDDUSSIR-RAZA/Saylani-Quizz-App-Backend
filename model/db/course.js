@@ -14,13 +14,7 @@ const courseSchema = new Schema({
     },
     batch: { type: String, required: [true, "Course batch is required."] },
     cities: [{
-        type: String, required: [true, "NIC is required."],
-        validate: {
-            validator: function (array) {
-                return array.every(city => typeof city === 'string');
-            },
-            message: 'Each city must be a string.'
-        }
+        type: String, required: [true, "City required."],
     }],
 });
 // const courseSchema = new Schema({
@@ -31,6 +25,6 @@ const courseSchema = new Schema({
 //  // New field 
 // });
 
-const course = mongoose.model('Course', courseSchema);
+const Course = mongoose.model('Course', courseSchema);
 
-module.exports = course;
+module.exports = Course;
