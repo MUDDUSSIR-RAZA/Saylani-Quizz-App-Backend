@@ -1,3 +1,4 @@
+const course = require("./db/course");
 const User = require("./db/user");
 
 exports.getStudentRequestModel = async () => {
@@ -21,6 +22,33 @@ exports.attestStudentRequestModel = async (id, status) => {
             throw "Student not Found!";
         }
         return `${result.name} is ${status}`;
+    } catch (error) {
+        throw error
+    }
+}
+
+exports.addCourseModel = async (course_name, batch, cities) => {
+    try {
+        const course = new course({
+            course_name, batch, cities
+        })
+        try {
+            await course.save();
+            return "Course Created!";
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                for (field in error.errors) {
+                    throw (error.errors[field].message);
+                }
+            }
+            // Check for duplicate key error
+            else if (error.code === 11000) {
+                throw ('NIC already exists!');
+            } else {
+                throw ('An unknown error occurred:', error);
+            }
+
+        }
     } catch (error) {
         throw error
     }
