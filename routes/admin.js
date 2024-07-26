@@ -1,5 +1,5 @@
 const express = require("express")
-const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController } = require("../controllers/admin")
+const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController } = require("../controllers/admin")
 
 const router = express.Router()
 
@@ -18,19 +18,27 @@ router.post("/attestStudentRequest", async (req, res) => {
         const resp = await attestStudentRequestController(req.body.id, req.body.status)
         res.status(200).json(resp)
     } catch (error) {
-        throw error;
+        res.status(404).json(err)
     }
 })
 
 router.post("/addCourse", async (req, res) => {
     try {
-        const resp = await addCourseController(req.body.course_name, req.body.batch, req.body.cities)
-        return res.status(200).json(resp)
+        const resp = await addCourseController(req.body.course_name, req.body.batch, req.body.cities);
+        return res.status(200).json(resp);
     } catch (error) {
-        console.log("🚀 ~ router.post ~ error:", error)
-        throw error
+        console.log("🚀 ~ router.post ~ error:", error);
+
+        // Handle different error types and respond with appropriate status codes
+        if (error === "Course already exists!") {
+            return res.status(400).json(error);
+        } else if (error.includes("required")) {
+            return res.status(400).json(error);
+        } else {
+            return res.status(500).json(error);
+        }
     }
-})
+});
 
 router.get("/getCourses", async (req, res) => {
     try {
@@ -41,5 +49,14 @@ router.get("/getCourses", async (req, res) => {
         res.status(404).json(err)
     }
 })
+
+router.post("/addQuiz", async (req, res) => {
+    try {
+        const resp = await addQuizController(req.body.course_name,  req.body.quiz_name , req.body.key);
+        return res.status(200).json(resp);
+    } catch (error) {
+        res.status(404).json(error)
+    }
+});
 
 module.exports = router
