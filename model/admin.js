@@ -1,4 +1,5 @@
 const Course = require("./db/course");
+const Quiz = require("./db/quiz");
 const User = require("./db/user");
 
 exports.getStudentRequestModel = async () => {
@@ -48,7 +49,7 @@ exports.addCourseModel = async (course_name, batch, cities) => {
                 console.log("🚀 ~ exports.addCourseModel= ~ Course already exists!:", "Course already exists!")
                 throw ('Course already exists!');
             } else {
-                throw('An unknown error occurred:', error);
+                throw ('An unknown error occurred:', error);
             }
         }
     } catch (error) {
@@ -66,5 +67,27 @@ exports.getCoursesModel = async () => {
     } catch (error) {
         console.log("🚀 ~ exports.getCoursesModel= ~ error:", error)
         throw ('Error retrieving student requests');
+    }
+};
+
+exports.addQuizModel = async (course_name, quiz_name, key) => {
+    try {
+        const quiz = new Quiz({ course_name, quiz_name, key });
+
+        try {
+            await quiz.save();
+            return "Quiz Created!";
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                for (let field in error.errors) {
+                    throw (error.errors[field].message);
+                }
+            } else {
+                throw ('An unknown error occurred:', error);
+            }
+        }
+    } catch (error) {
+        console.error("Error in addCourseModel:", error);
+        throw error;
     }
 };
