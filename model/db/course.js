@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const { Schema, Types } = mongoose;
+const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
     course_name: {
-        type: String, unique: [true, "Course already exists!"], required: [true, "NIC is required."],
+        type: String, unique: [true, "Course already exists!"], required: [true, "Course required."],
         validate: {
             validator: async function (course_name) {
                 const existingCourse = await this.constructor.findOne({ course_name });
