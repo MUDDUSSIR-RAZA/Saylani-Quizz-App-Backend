@@ -26,7 +26,6 @@ router.post("/login", async (req, res) => {
   try {
     const email = req.body.email.toLowerCase();
     const resp = await loginController(email, req.body.password);
-    console.log("🚀 ~ router.post ~ resp:", resp)
     res.status(200).json(resp)
   } catch (err) {
     res.status(400).json(err);
