@@ -1,5 +1,5 @@
 const express = require("express")
-const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, getQuizzesController } = require("../controllers/admin")
+const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, getQuizzesController, addQuestionController } = require("../controllers/admin")
 
 const router = express.Router()
 
@@ -68,7 +68,7 @@ router.get("/getQuizzes", async (req, res) => {
 
 router.post("/addQuestion", async (req, res) => {
     try {
-        const resp = await addQuizController(req.body.selectedQuiz, req.body.question_text, req.body.options, req.body.correctAnswer, req.body.time_limit);
+        const resp = await addQuestionController(req.body.quizId, req.body.question_text, req.body.options, req.body.correctAnswer, req.body.time_limit);
         return res.status(200).json(resp);
     } catch (error) {
         res.status(404).json(error)
