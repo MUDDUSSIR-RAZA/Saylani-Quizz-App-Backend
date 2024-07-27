@@ -42,7 +42,6 @@ router.get("/getCourses", async (req, res) => {
         const resp = await getCoursesController()
         res.status(200).json(resp)
     } catch (err) {
-        console.log("🚀 ~ router.get ~ err:", err)
         res.status(404).json(err)
     }
 })
