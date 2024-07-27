@@ -1,5 +1,5 @@
 const express = require(`express`);
-const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, getQuizzesModel, addQuestionModel } = require("../model/admin");
+const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, addQuestionModel, getAllQuizzesModel, getQuizByIdModel, editQuizModel } = require("../model/admin");
 
 exports.getStudentRequestsController = async () => {
     try {
@@ -38,7 +38,7 @@ exports.getCoursesController = async () => {
     }
 }
 
-exports.addQuizController = async (course_name,course_id, quiz_name, key) => {
+exports.addQuizController = async (course_name, course_id, quiz_name, key) => {
     try {
         const resp = await addQuizModel(course_name, quiz_name, key, course_id)
         return resp
@@ -49,12 +49,30 @@ exports.addQuizController = async (course_name,course_id, quiz_name, key) => {
 }
 
 
-exports.getQuizzesController = async () => {
+exports.getAllQuizzesController = async () => {
     try {
-        const resp = await getQuizzesModel();
+        const resp = await getAllQuizzesModel();
         return resp
     } catch (error) {
-        throw err;
+        throw error;
+    }
+}
+
+exports.getQuizByIdController = async (id) => {
+    try {
+        const resp = await getQuizByIdModel(id);
+        return resp
+    } catch (error) {
+        throw error;
+    }
+}
+
+exports.editQuizController = async ( _id, quiz_name, key, displayQuestions) => {
+    try {
+        const resp = await editQuizModel( _id, quiz_name, key, displayQuestions)
+        return resp
+    } catch (error) {
+        throw error
     }
 }
 
