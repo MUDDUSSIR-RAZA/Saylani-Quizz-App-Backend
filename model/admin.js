@@ -70,16 +70,20 @@ exports.getCoursesModel = async () => {
     }
 };
 
-exports.addQuizModel = async (course_name, quiz_name, key) => {
+exports.addQuizModel = async (course_name, quiz_name, key, course_id) => {
     try {
-        const quiz = new Quiz({ course_name, quiz_name, key });
+        console.log(course_id);
         const isQuiz = await Quiz.find({ quiz_name })
         const isCourse = await Quiz.find({ course_name })
         try {
             if (isQuiz.length > 0 && isCourse.length > 0) {
                 throw ('Quiz existed!');
             }
+            const quiz = new Quiz({ course_name, quiz_name, key, course_id });
             await quiz.save();
+            const course = await Course.findByIdAndUpdate(course_id, {
+                $push: { quizzes: quiz._id },
+            });
             return "Quiz Created!";
         } catch (error) {
             if (error.name === 'ValidationError') {
@@ -107,14 +111,17 @@ exports.getQuizzesModel = async () => {
 
 exports.addQuestionModel = async (quizId, question_text, options, correctAnswer, time_limit) => {
     try {
-        const question = new Question({ quizId, question_text, options, correct_answer: correctAnswer, time_limit });
         const isQuiz = await Question.find({ quizId })
         const isQuestion = await Question.find({ question_text })
         try {
             if (isQuestion.length > 0 && isQuiz.length > 0) {
                 throw ('Question already existed!');
             }
+            const question = new Question({ quizId, question_text, options, correct_answer: correctAnswer, time_limit });
             await question.save();
+            const quiz = await Quiz.findByIdAndUpdate(quizId, {
+                $push: { questions: question._id },
+            });
             return "Question Created!";
         } catch (error) {
             if (error.name === 'ValidationError') {
