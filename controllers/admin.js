@@ -42,7 +42,6 @@ exports.addQuizController = async (course_name, course_id, quiz_name, key) => {
         const resp = await addQuizModel(course_name, quiz_name, key, course_id)
         return resp
     } catch (error) {
-        console.log("🚀 ~ exports.addCourseController= ~ error:", error)
         throw error
     }
 }
