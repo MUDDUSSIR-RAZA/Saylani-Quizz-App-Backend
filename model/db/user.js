@@ -39,7 +39,7 @@ const userSchema = new Schema({
     attest: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
     phone: { type: String, required: [true, "Phone number is required."] },
     courses: [courseSchema],
-    role: { type: String, default: 'student'},
+    role: { type: String, default: 'student' },
     // results: [{ type: Types.ObjectId, ref: 'Result' }]
 });
 
