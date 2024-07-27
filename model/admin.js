@@ -100,7 +100,7 @@ exports.addQuizModel = async (course_name, quiz_name, key, course_id) => {
     }
 };
 
-exports.getQuizzesModel = async () => {
+exports.getAllQuizzesModel = async () => {
     try {
         const getQuizzes = await Quiz.find()
         return getQuizzes;
@@ -108,6 +108,39 @@ exports.getQuizzesModel = async () => {
         throw ('Error retrieving student requests');
     }
 };
+
+exports.getQuizByIdModel = async (id) => {
+    try {
+        const quiz = await Quiz.findOne({ _id: id })
+        if (!quiz) {
+            throw ('Quiz not found!');
+        }
+        return quiz;
+    } catch (error) {
+        throw ('Error retrieving student requests');
+    }
+};
+
+exports.editQuizModel = async (_id, quiz_name, key, displayQuestions) => {
+    try {
+        const updatedFields = { quiz_name, key, displayQuestions };
+
+        const result = await Quiz.findOneAndUpdate(
+            { _id },
+            { $set: updatedFields },
+            { new: true }
+        );
+
+        if (!result) {
+            throw new Error("Quiz not found!");
+        }
+
+        return "Quiz Successfully Updated!";
+    } catch (err) {
+        throw new Error(`Error updating quiz: ${err.message}`);
+    }
+};
+
 
 exports.addQuestionModel = async (quizId, question_text, options, correctAnswer, time_limit) => {
     try {
@@ -117,7 +150,7 @@ exports.addQuestionModel = async (quizId, question_text, options, correctAnswer,
             if (isQuestion.length > 0 && isQuiz.length > 0) {
                 throw ('Question already existed!');
             }
-            const question = new Question({ quiz:quizId, question_text, options, correct_answer: correctAnswer, time_limit });
+            const question = new Question({ quiz: quizId, question_text, options, correct_answer: correctAnswer, time_limit });
             await question.save();
             const quiz = await Quiz.findByIdAndUpdate(quizId, {
                 $push: { questions: question._id },
