@@ -1,4 +1,5 @@
 const Course = require("./db/course");
+const Question = require("./db/question");
 const Quiz = require("./db/quiz");
 const User = require("./db/user");
 
@@ -75,7 +76,7 @@ exports.addQuizModel = async (course_name, quiz_name, key) => {
         const isQuiz = await Quiz.find({ quiz_name })
         const isCourse = await Quiz.find({ course_name })
         try {
-            if(isQuiz.length > 0 && isCourse.length > 0) {
+            if (isQuiz.length > 0 && isCourse.length > 0) {
                 throw ('Quiz existed!');
             }
             await quiz.save();
@@ -101,5 +102,31 @@ exports.getQuizzesModel = async () => {
         return getQuizzes;
     } catch (error) {
         throw ('Error retrieving student requests');
+    }
+};
+
+exports.addQuestionModel = async (quizId, question_text, options, correctAnswer, time_limit) => {
+    try {
+        const question = new Question({ quizId, question_text, options, correct_answer: correctAnswer, time_limit });
+        const isQuiz = await Question.find({ quizId })
+        const isQuestion = await Question.find({ question_text })
+        try {
+            if (isQuestion.length > 0 && isQuiz.length > 0) {
+                throw ('Question already existed!');
+            }
+            await question.save();
+            return "Question Created!";
+        } catch (error) {
+            if (error.name === 'ValidationError') {
+                for (let field in error.errors) {
+                    throw (error.errors[field].message);
+                }
+            } else {
+                throw ('An unknown error occurred:', error);
+            }
+        }
+    } catch (error) {
+        console.error("Error in addCourseModel:", error);
+        throw error;
     }
 };
