@@ -70,7 +70,6 @@ router.get("/getQuizById", async (req, res) => {
     try {
         const id = req.query.id;
         const resp = await getQuizByIdController(id)
-        console.log(resp)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
