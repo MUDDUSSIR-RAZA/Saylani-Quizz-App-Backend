@@ -40,7 +40,6 @@ exports.addCourseModel = async (course_name, batch, cities) => {
                 console.log("🚀 ~ exports.addCourseModel= ~ ValidationError:", "ValidationError")
                 // Iterate through each field error
                 for (let field in error.errors) {
-                    console.log("🚀 ~ exports.addCourseModel= ~ error.errors[field].message:", error.errors[field].message)
                     throw (error.errors[field].message);
                 }
             }
