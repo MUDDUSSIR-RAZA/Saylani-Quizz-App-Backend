@@ -186,7 +186,6 @@ exports.addBulkQuestionsModel = async (quizId, questions) => {
             const { question_text, options, correct_answer } = questions[i];
 
             if (!question_text || !options || !correct_answer) {
-                console.log(first)
                 throw (`Question at index ${i} is missing required fields: "question_text", "options", or "correct_answer".`);
             }
         }
