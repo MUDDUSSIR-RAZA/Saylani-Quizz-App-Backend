@@ -18,13 +18,6 @@ const courseSchema = new Schema({
     }],
     questions: [{ type: mongoose.Types.ObjectId, ref: 'Question' }]
 });
-// const courseSchema = new Schema({
-//     _id: { type: Types.ObjectId, default: () => new Types.ObjectId() },
-//     course_name: { type: String, required: true },
-//     questions: [{ type: Types.ObjectId, ref: 'Question' }],
-//     quizOpen: { type: Boolean, default: false },
-//  // New field 
-// });
 
 const Course = mongoose.model('Course', courseSchema);
 
