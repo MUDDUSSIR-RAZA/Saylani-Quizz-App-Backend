@@ -6,7 +6,7 @@ exports.getStudentRequestsController = async () => {
         const resp = await getStudentRequestModel();
         return resp
     } catch (error) {
-        throw err;
+        throw error;
     }
 }
 
