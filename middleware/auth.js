@@ -14,7 +14,6 @@ exports.verify = async (req, res, next) => {
     const user = await findUser(req.email);
 
     if (!user) {
-      console.log("Authorization UnSuccessful!");
       res.status(400).json("Authorization UnSuccessful!");
       return;
     }
