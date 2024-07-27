@@ -24,7 +24,6 @@ router.get("/userBlogs", verify , async (req, res) => {
 });
 
 router.post("/findBlog" , async (req, res) => {
-  console.log(req.body.userId);
   try {
     const resp = await findBlog(req.body.userId);
     res.status(200).json(resp);
