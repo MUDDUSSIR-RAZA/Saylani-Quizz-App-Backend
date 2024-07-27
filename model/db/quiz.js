@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const quizSchema = new Schema({
-  course_id:{ type: Schema.Types.ObjectId, ref: "Course"},
+  course:{ type: Schema.Types.ObjectId, ref: "Course"},
   questions: [{ type: mongoose.Types.ObjectId, ref: 'Question' }],
   course_name: { type: String, required: [true, "Course name is required."] },
   quiz_name: { type: String, required: [true, "Course name is required."] },
