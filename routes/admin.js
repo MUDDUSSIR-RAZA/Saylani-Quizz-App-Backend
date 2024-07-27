@@ -1,5 +1,5 @@
 const express = require("express")
-const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, getQuizzesController, addQuestionController } = require("../controllers/admin")
+const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, addQuestionController, getAllQuizzesController, getQuizByIdController, editQuizController } = require("../controllers/admin")
 
 const router = express.Router()
 
@@ -56,12 +56,32 @@ router.post("/addQuiz", async (req, res) => {
     }
 });
 
-router.get("/getQuizzes", async (req, res) => {
+router.get("/getAllQuizzes", async (req, res) => {
     try {
-        const resp = await getQuizzesController()
+        const resp = await getAllQuizzesController()
         res.status(200).json(resp)
     } catch (err) {
         console.log("🚀 ~ router.get ~ err:", err)
+        res.status(404).json(err)
+    }
+})
+
+router.get("/getQuizById", async (req, res) => {
+    try {
+        const id = req.query.id;
+        const resp = await getQuizByIdController(id)
+        console.log(resp)
+        res.status(200).json(resp)
+    } catch (err) {
+        res.status(404).json(err)
+    }
+})
+
+router.patch("/editQuiz", async (req, res) => {
+    try {
+        const resp = await editQuizController(req.body._id, req.body.quiz_name, req.body.key, req.body.displayQuestions);
+        res.status(200).json(resp)
+    } catch (err) {
         res.status(404).json(err)
     }
 })
