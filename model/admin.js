@@ -145,6 +145,9 @@ exports.editQuizModel = async (_id, quiz_name, key, displayQuestions) => {
 exports.addQuestionModel = async (quizId, question_text, options, correctAnswer, time_limit) => {
     try {
         const isQuiz = await Question.find({ quizId })
+        if (isQuiz.length > 0) {
+            throw ('Quiz not found!');
+        }
         const isQuestion = await Question.find({ question_text })
         try {
             if (isQuestion.length > 0 && isQuiz.length > 0) {
@@ -167,6 +170,57 @@ exports.addQuestionModel = async (quizId, question_text, options, correctAnswer,
         }
     } catch (error) {
         console.error("Error in addCourseModel:", error);
+        throw error;
+    }
+};
+
+exports.addBulkQuestionsModel = async (quizId, questions) => {
+    try {
+        console.log(quizId)
+        const isQuiz = await Quiz.findById(quizId);
+        if (!isQuiz) {
+            throw ('Quiz not found!');
+        }
+
+        for (let i = 0; i < questions.length; i++) {
+            const { question_text, options, correct_answer } = questions[i];
+
+            if (!question_text || !options || !correct_answer) {
+                console.log(first)
+                throw (`Question at index ${i} is missing required fields: "question_text", "options", or "correct_answer".`);
+            }
+        }
+
+        const addedQuestions = [];
+
+        for (const questionData of questions) {
+            const { question_text, options, correct_answer, time_limit } = questionData;
+
+            const isQuestion = await Question.findOne({ quiz: quizId, question_text });
+            if (isQuestion) {
+                continue;
+            }
+
+            const question = new Question({
+                quiz: quizId,
+                question_text,
+                options,
+                correct_answer,
+                time_limit: time_limit || 30
+            });
+
+            await question.save();
+
+            await Quiz.findByIdAndUpdate(quizId, {
+                $push: { questions: question._id },
+            });
+
+            addedQuestions.push(question);
+        }
+
+        return `Out of ${questions.length}, ${addedQuestions.length} questions were added to the quiz!`;
+    } catch (error) {
+        console.error("Error in addQuestionsModel:", error);
         throw error;
     }
 };
