@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
-const { Schema, Types } = mongoose;
+const Schema = mongoose.Schema;
 
+// Define the Question schema
 const questionSchema = new Schema({
-    _id: { type: Types.ObjectId, default: () => new Types.ObjectId() },
+    courseId:{ type: Schema.Types.ObjectId, ref: "Course" },
     question_text: { type: String, required: true },
     options: { type: [String], required: true },
-    correct_option_index: { type: Number, required: true },  // Index of the
-    time_limit: { type: Number, required: true }
+    correct_answer: { type: String, required: true },
+    time_limit: { type: Number, required: true },
 });
 
-const question = mongoose.model('Question', questionSchema);
+// Create models from the schemas
+const Question = mongoose.model('Question', questionSchema);
 
-module.exports = question;
+module.exports = Question;
