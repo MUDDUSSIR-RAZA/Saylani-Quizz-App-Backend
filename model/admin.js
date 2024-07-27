@@ -18,7 +18,6 @@ exports.attestStudentRequestModel = async (id, status) => {
             attest: status
         }
         const result = await User.findOneAndUpdate({ _id: id }, attest, { new: true });
-        console.log("🚀 ~ exports.attestStudentRequestModel= ~ result:", result)
         if (!result) {
             throw "Student not Found!";
         }
@@ -73,8 +72,12 @@ exports.getCoursesModel = async () => {
 exports.addQuizModel = async (course_name, quiz_name, key) => {
     try {
         const quiz = new Quiz({ course_name, quiz_name, key });
-
+        const isQuiz = await Quiz.find({ quiz_name })
+        const isCourse = await Quiz.find({ course_name })
         try {
+            if(isQuiz.length > 0 && isCourse.length > 0) {
+                throw ('Quiz existed!');
+            }
             await quiz.save();
             return "Quiz Created!";
         } catch (error) {
@@ -89,5 +92,14 @@ exports.addQuizModel = async (course_name, quiz_name, key) => {
     } catch (error) {
         console.error("Error in addCourseModel:", error);
         throw error;
+    }
+};
+
+exports.getQuizzesModel = async () => {
+    try {
+        const getQuizzes = await Quiz.find()
+        return getQuizzes;
+    } catch (error) {
+        throw ('Error retrieving student requests');
     }
 };
