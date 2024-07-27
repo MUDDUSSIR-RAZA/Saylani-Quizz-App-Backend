@@ -24,7 +24,6 @@ exports.addCourseController = async (course_name, batch, cities) => {
         const resp = await addCourseModel(course_name, batch, cities)
         return resp
     } catch (error) {
-        console.log("🚀 ~ exports.addCourseController= ~ error:", error)
         throw error
     }
 }
