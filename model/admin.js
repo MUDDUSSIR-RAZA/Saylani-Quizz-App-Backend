@@ -46,7 +46,6 @@ exports.addCourseModel = async (course_name, batch, cities) => {
             }
             // Check for duplicate key error
             else if (error.code === 11000) {
-                console.log("🚀 ~ exports.addCourseModel= ~ Course already exists!:", "Course already exists!")
                 throw ('Course already exists!');
             } else {
                 throw ('An unknown error occurred:', error);
