@@ -38,7 +38,6 @@ router.get("/allBlogs", async (req, res) => {
     const resp = await getAllBLogs();
     res.status(200).json(resp);
   } catch (err) {
-    console.log(err);
     res.status(400).json(err);
   }
 });
