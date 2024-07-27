@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
+    quizzes: [{ type: Schema.Types.ObjectId, ref: "Quiz" }],
     course_name: {
         type: String, unique: [true, "Course already exists!"], required: [true, "Course required."],
         validate: {
@@ -16,7 +17,6 @@ const courseSchema = new Schema({
     cities: [{
         type: String, required: [true, "City required."],
     }],
-    questions: [{ type: mongoose.Types.ObjectId, ref: 'Question' }]
 });
 
 const Course = mongoose.model('Course', courseSchema);
