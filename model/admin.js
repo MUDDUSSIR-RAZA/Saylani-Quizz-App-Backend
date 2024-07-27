@@ -65,7 +65,6 @@ exports.getCoursesModel = async () => {
         const getCourses = await Course.find()
         return getCourses;
     } catch (error) {
-        console.log("🚀 ~ exports.getCoursesModel= ~ error:", error)
         throw ('Error retrieving student requests');
     }
 };
