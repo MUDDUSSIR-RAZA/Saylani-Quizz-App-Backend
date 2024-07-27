@@ -71,7 +71,6 @@ exports.getCoursesModel = async () => {
 
 exports.addQuizModel = async (course_name, quiz_name, key, course_id) => {
     try {
-        console.log(course_id);
         const isQuiz = await Quiz.find({ quiz_name })
         const isCourse = await Quiz.find({ course_name })
         try {
