@@ -16,6 +16,7 @@ const courseSchema = new Schema({
     cities: [{
         type: String, required: [true, "City required."],
     }],
+    questions: [{ type: mongoose.Types.ObjectId, ref: 'Question' }]
 });
 // const courseSchema = new Schema({
 //     _id: { type: Types.ObjectId, default: () => new Types.ObjectId() },
