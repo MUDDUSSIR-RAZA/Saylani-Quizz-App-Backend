@@ -61,7 +61,6 @@ router.get("/getAllQuizzes", async (req, res) => {
         const resp = await getAllQuizzesController()
         res.status(200).json(resp)
     } catch (err) {
-        console.log("🚀 ~ router.get ~ err:", err)
         res.status(404).json(err)
     }
 })
