@@ -1,5 +1,5 @@
 const express = require("express")
-const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController } = require("../controllers/admin")
+const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, getQuizzesController } = require("../controllers/admin")
 
 const router = express.Router()
 
@@ -58,5 +58,15 @@ router.post("/addQuiz", async (req, res) => {
         res.status(404).json(error)
     }
 });
+
+router.get("/getQuizzes", async (req, res) => {
+    try {
+        const resp = await getQuizzesController()
+        res.status(200).json(resp)
+    } catch (err) {
+        console.log("🚀 ~ router.get ~ err:", err)
+        res.status(404).json(err)
+    }
+})
 
 module.exports = router
