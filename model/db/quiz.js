@@ -9,6 +9,7 @@ const quizSchema = new Schema({
     required: [true, "Phone number is required."],
     default: "10",
   },
+  quizOpen: { type: Boolean, default: false },
   key: { type: String, required: [true, "Please enter a password."] },
 });
 
