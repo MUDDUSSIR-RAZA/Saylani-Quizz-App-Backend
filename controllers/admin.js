@@ -1,5 +1,5 @@
 const express = require(`express`);
-const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, getQuizzesModel } = require("../model/admin");
+const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, getQuizzesModel, addQuestionModel } = require("../model/admin");
 
 exports.getStudentRequestsController = async () => {
     try {
@@ -55,5 +55,14 @@ exports.getQuizzesController = async () => {
         return resp
     } catch (error) {
         throw err;
+    }
+}
+
+exports.addQuestionController = async (quizId, question_text, options, correctAnswer, time_limit) => {
+    try {
+        const resp = await addQuestionModel(quizId, question_text, options, correctAnswer, time_limit)
+        return resp
+    } catch (error) {
+        throw error
     }
 }
