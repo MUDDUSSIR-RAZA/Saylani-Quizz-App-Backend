@@ -49,7 +49,7 @@ router.get("/getCourses", async (req, res) => {
 
 router.post("/addQuiz", async (req, res) => {
     try {
-        const resp = await addQuizController(req.body.course_name,  req.body.quiz_name , req.body.key);
+        const resp = await addQuizController(req.body.course_name, req.body.course_id, req.body.quiz_name, req.body.key);
         return res.status(200).json(resp);
     } catch (error) {
         res.status(404).json(error)
