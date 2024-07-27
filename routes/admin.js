@@ -27,9 +27,6 @@ router.post("/addCourse", async (req, res) => {
         const resp = await addCourseController(req.body.course_name, req.body.batch, req.body.cities);
         return res.status(200).json(resp);
     } catch (error) {
-        console.log("🚀 ~ router.post ~ error:", error);
-
-        // Handle different error types and respond with appropriate status codes
         if (error === "Course already exists!") {
             return res.status(400).json(error);
         } else if (error.includes("required")) {
