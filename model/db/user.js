@@ -6,7 +6,7 @@ const courseSchema = new Schema({
     batch: { type: String, required: [true, "Batch is required."] },
     city: { type: String, required: [true, "City is required."] },
     // roll_no: { type: Number, required: [true, "Roll number is required."] },
-    status: { type: String, enum: ['pending', 'enrolled', 'failed'], default: 'pending', required: [true, "Status is required."] }
+    status: { type: String, enum: ['pending', 'enrolled', 'failed', "completed", "canceled"], default: 'pending', required: [true, "Status is required."] }
 });
 
 
