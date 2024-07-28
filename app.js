@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const auth = require("./routes/auth");
 const admin = require("./routes/admin");
+const student = require("./routes/student");
 
 const app = express();
 const { mongoose } = require("./model/connection");
@@ -28,6 +29,7 @@ app.set("views", "views");
 
 app.use("/auth", auth);
 app.use("/admin", admin )
+app.use("/student" , student)
 // app.use("/blog", blog);
 
 app.listen(5000);
