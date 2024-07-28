@@ -16,7 +16,7 @@ router.get("/getStudentQuiz", async (req, res) => {
 router.get("/getQuizById", async (req, res) => {
     try {
         const token = req.query.token;
-        const quizId = req.query.id;
+        const quizId = req.query.quizId;
         const resp = await getQuizByIdController(token , quizId)
         res.status(200).json(resp)
     } catch (err) {
