@@ -1,4 +1,3 @@
-const express = require(`express`);
 const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, addQuestionModel, getAllQuizzesModel, getQuizByIdModel, editQuizModel, addBulkQuestionsModel } = require("../model/admin");
 
 exports.getStudentRequestsController = async () => {
