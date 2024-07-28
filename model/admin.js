@@ -172,6 +172,7 @@ exports.addQuestionModel = async (quizId, question_text, options, correctAnswer,
 exports.addBulkQuestionsModel = async (quizId, questions) => {
     try {
         const isQuiz = await Quiz.findById(quizId);
+        console.log(isQuiz)
         if (!isQuiz) {
             throw ('Quiz not found!');
         }
