@@ -16,7 +16,7 @@ exports.getStudentQuizModel = async (userId) => {
             throw new Error('User is not enrolled in any courses');
         }
 
-        const quizzesWithMoreThan10Questions = [];
+        const filterQuizzes= [];
 
         for (const course of enrolledCourses) {
             const quizzes = await Quiz.find({
@@ -24,20 +24,18 @@ exports.getStudentQuizModel = async (userId) => {
                 quizOpen: true,
                 $expr: { $gte: [{ $size: "$questions" }, 10] }
             }).populate('questions');
-            console.log("first quizzes" , quizzes)
 
             quizzes.forEach(quiz => {
-                quizzesWithMoreThan10Questions.push({
-                    userId: user._id,
-                    quizId: quiz._id,
-                    quizName: quiz.quiz_name,
-                    questionsCount: quiz.questions.length
-                });
+                filterQuizzes.push(quiz);
             });
         }
-        console.log(quizzesWithMoreThan10Questions)
 
-        return "quizzesWithMoreThan10Questions";
+        const resp = {
+            userId: user._id,
+            quiz: filterQuizzes
+        }
+
+        return resp;
     } catch (error) {
         console.error(error);
         return { error: error.message };
