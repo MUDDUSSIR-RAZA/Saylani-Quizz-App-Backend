@@ -8,15 +8,15 @@ exports.getStudentQuizModel = async (userId) => {
         const user = await User.findById(userId)
 
         if (!user) {
-            throw new Error('User not found');
+            throw ('User not found');
         }
         const enrolledCourses = user.courses.filter(course => course.status === 'enrolled');
 
         if (enrolledCourses.length === 0) {
-            throw new Error('User is not enrolled in any courses');
+            throw ('User is not enrolled in any courses');
         }
 
-        const filterQuizzes= [];
+        const filterQuizzes = [];
 
         for (const course of enrolledCourses) {
             const quizzes = await Quiz.find({
@@ -30,14 +30,54 @@ exports.getStudentQuizModel = async (userId) => {
             });
         }
 
-        const resp = {
-            userId: user._id,
-            quiz: filterQuizzes
+        return filterQuizzes;
+    } catch (error) {
+        throw error.message
+    }
+}
+
+exports.getQuizByIdModel = async (userId, quizId) => {
+    try {
+        // Verify the user ID
+        const user = await User.findById(userId);
+        if (!user) {
+            throw ("User not found")
         }
 
-        return resp;
+        // Find the quiz by ID and populate the course and questions
+        const quiz = await Quiz.findById(quizId).populate("course").populate("questions");
+        if (!quiz) {
+            throw ("Quiz not found")
+        }
+
+        // Check if the user is enrolled in the course associated with the quiz
+        const isEnrolled = user.courses.some(
+            (course) => course_name === course_name && course.status === "enrolled"
+        );
+        if (!isEnrolled) {
+            throw ("User is not enrolled in the course for this quiz")
+        }
+
+        // Check if the quiz is open
+        if (!quiz.quizOpen) {
+            throw ("Quiz is not open")
+        }
+
+        // Get the number of questions to display
+        const numQuestionsToDisplay = parseInt(quiz.displayQuestions, 10);
+
+        // Randomly select the specified number of questions
+        const shuffledQuestions = quiz.questions.sort(() => 0.5 - Math.random());
+        const selectedQuestions = shuffledQuestions.slice(0, numQuestionsToDisplay);
+
+        // Return the quiz object with the selected questions
+        return {
+            quiz: {
+                ...quiz.toObject(),
+                questions: selectedQuestions,
+            },
+        };
     } catch (error) {
-        console.error(error);
-        return { error: error.message };
+        throw error.message
     }
 }
