@@ -45,14 +45,14 @@ exports.getQuizByIdModel = async (userId, quizId) => {
         }
 
         // Find the quiz by ID and populate the course and questions
-        const quiz = await Quiz.findById(quizId).populate("course").populate("questions");
+        const quiz = await Quiz.findById(quizId).populate("questions");
         if (!quiz) {
             throw ("Quiz not found")
         }
 
         // Check if the user is enrolled in the course associated with the quiz
         const isEnrolled = user.courses.some(
-            (course) => course_name === course_name && course.status === "enrolled"
+            (course) => course.course_name === quiz.course_name && course.status === "enrolled"
         );
         if (!isEnrolled) {
             throw ("User is not enrolled in the course for this quiz")
@@ -72,11 +72,9 @@ exports.getQuizByIdModel = async (userId, quizId) => {
 
         // Return the quiz object with the selected questions
         return {
-            quiz: {
-                ...quiz.toObject(),
-                questions: selectedQuestions,
-            },
-        };
+            ...quiz.toObject(),
+            questions: selectedQuestions,
+        }
     } catch (error) {
         throw error.message
     }
