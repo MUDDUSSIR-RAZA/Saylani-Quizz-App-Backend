@@ -1,10 +1,12 @@
+const { getStudentQuizModel } = require('../model/student');
+
 jwt = require('jsonwebtoken');
 
 exports.getStudentQuizController = async (token) => {
     try {
-        var decoded = await jwt.verify(token, process.env.SECRET_KEY);
-        console.log(decoded) // bar
-        return token
+        const {userId} = await jwt.verify(token, process.env.SECRET_KEY);
+        const resp = getStudentQuizModel(userId)
+        return resp
     } catch (error) {
         throw error
     }
