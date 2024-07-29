@@ -40,7 +40,6 @@ async function getNextSequenceValue(sequenceName) {
     );
     return sequenceDocument.sequence_value;
 }
-    
 
 userSchema.pre('save', async function (next) {
     console.log("dsfdsfdsfds")
