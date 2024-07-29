@@ -40,8 +40,7 @@ async function getNextSequenceValue(sequenceName) {
     );
     return sequenceDocument.sequence_value;
 }
-
-// Middleware to handle roll number assignment
+    
 
 userSchema.pre('save', async function (next) {
     console.log("dsfdsfdsfds")
