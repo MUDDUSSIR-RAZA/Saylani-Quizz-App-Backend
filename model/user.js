@@ -47,6 +47,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
         await user.save();
         return "Request sent for approval!";
       } catch (error) {
+        console.log(error)
         if (error.name === 'ValidationError') {
           for (field in error.errors) {
             throw new Error(error.errors[field].message);
