@@ -2,33 +2,60 @@ const User = require("../model/db/user");
 
 exports.createUserModel = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
   try {
-    const user = new User({
-      name,
-      fathername,
-      nic,
-      email,
-      phone,
-      password,
-      courses: [{
-        course_name,
-        batch,
-        city
-      }]
-    });
-    try {
-      await user.save();
-      return "Request Send For Approval!";
-    } catch (error) {
-      if (error.name === 'ValidationError') {
-        for (field in error.errors) {
-          throw (error.errors[field].message);
+    const existingUser = await User.findOne({ nic });
+
+    if (existingUser) {
+      const existingCourse = existingUser.courses.find(course =>
+        course.course_name === course_name &&
+        course.batch === batch
+      );
+
+      if (existingCourse) {
+        throw (`User is already applied for this Course.`);
+      }
+
+      if (!existingCourse) {
+        const anOtherCourse = existingUser.courses.find(course =>
+          (course.status === 'pending' || course.status === 'enrolled')
+        );
+
+        if (anOtherCourse) {
+          throw (`User is already ${anOtherCourse.status} in Another course.`);
         }
       }
-      // Check for duplicate key error
-      else if (error.code === 11000) {
-        throw ('NIC already exists!');
-      } else {
-        throw ('An unknown error occurred:', error);
+      console.log("Course added to existing user.")
+      existingUser.courses.push({ course_name, batch, city });
+      await existingUser.save();
+      return "Course added to existing user.";
+
+    } else {
+      const user = new User({
+        name,
+        fathername,
+        nic,
+        email,
+        phone,
+        password,
+        courses: [{
+          course_name,
+          batch,
+          city
+        }]
+      });
+
+      try {
+        await user.save();
+        return "Request sent for approval!";
+      } catch (error) {
+        if (error.name === 'ValidationError') {
+          for (field in error.errors) {
+            throw new Error(error.errors[field].message);
+          }
+        } else if (error.code === 11000) {
+          throw new Error('NIC or email already exists!');
+        } else {
+          throw new Error('An unknown error occurred: ' + error);
+        }
       }
     }
   } catch (err) {
