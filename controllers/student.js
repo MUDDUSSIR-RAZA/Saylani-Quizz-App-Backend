@@ -15,10 +15,9 @@ exports.getStudentQuizController = async (token) => {
 exports.getQuizByIdController = async (token, quizId) => {
     try {
         const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
-        const resp = getQuizByIdModel(userId , quizId)
+        const resp = await getQuizByIdModel(userId , quizId)
         return resp
     } catch (error) {
-        console.log(error)
         throw error
     }
 }
@@ -35,7 +34,7 @@ exports.getProfileController = async (token) => {
 
 exports.submitResultController = async ( userId, course_name , batch , quiz_name , totalQuestions , score ) => {
     try {
-        const resp = submitResultModel( userId, course_name , batch , quiz_name , totalQuestions , score )
+        const resp = await submitResultModel( userId, course_name , batch , quiz_name , totalQuestions , score )
         return resp
     } catch (error) {
         throw error
