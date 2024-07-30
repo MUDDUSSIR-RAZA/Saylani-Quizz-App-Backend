@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getStudentQuizController, getQuizByIdController } = require("../controllers/student");
+const { getStudentQuizController, getQuizByIdController, getProfileController } = require("../controllers/student");
 
 const router = Router()
 
@@ -24,6 +24,15 @@ router.get("/getQuizById", async (req, res) => {
     }
 })
 
+router.get("/getProfile", async (req, res) => {
+    try {
+        const token = req.query.token;
+        const resp = await getProfileController(token)
+        res.status(200).json(resp)
+    } catch (err) {
+        res.status(404).json(err)
+    }
+})
 
 
 module.exports = router
