@@ -27,7 +27,7 @@ const userSchema = new Schema({
     phone: { type: String, required: [true, "Phone number is required."] },
     courses: [courseSchema],
     role: { type: String, default: 'student' },
-    // results: [{ type: Types.ObjectId, ref: 'Result' }]
+    results: [{ type: Types.ObjectId, ref: 'Result' }]
 });
 
 
