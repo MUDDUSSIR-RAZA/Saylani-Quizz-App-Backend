@@ -5,7 +5,8 @@ const resultSchema = new Schema({
     course_name: { type: String, required: [true, "Course name is required."] },
     quiz_name: { type: String, required: [true, "Course name is required."] },
     batch: { type: String, required: [true, "Course batch is required."] },
-    sequence_value: { type: Number,required: [true, "Tot is required."]  }
+    totalQuestions: { type: Number, required: [true, "Total Question is required."] },
+    score: { type: Number, required: [true, "Score is required."] },
 
 })
 
