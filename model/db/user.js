@@ -32,7 +32,6 @@ const userSchema = new Schema({
 
 
 async function getNextSequenceValue(sequenceName) {
-    console.log("sdfsdfsf")
     const sequenceDocument = await Counter.findOneAndUpdate(
         { name: sequenceName },
         { $inc: { sequence_value: 1 } },
