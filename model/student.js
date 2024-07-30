@@ -1,5 +1,3 @@
-const Course = require("./db/course");
-const Question = require("./db/question");
 const Quiz = require("./db/quiz");
 const User = require("./db/user");
 
@@ -74,6 +72,19 @@ exports.getQuizByIdModel = async (userId, quizId) => {
             ...quiz.toObject(),
             questions: selectedQuestions,
         }
+    } catch (error) {
+        throw error.message
+    }
+}
+
+exports.getProfileModel = async (userId) => {
+    try {
+        const user = await User.findById(userId).select("-password")
+        if (!user) {
+            throw ('User not found');
+        }
+        
+        return user;
     } catch (error) {
         throw error.message
     }
