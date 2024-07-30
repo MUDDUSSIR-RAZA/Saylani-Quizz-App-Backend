@@ -1,4 +1,5 @@
 const Quiz = require("./db/quiz");
+const Result = require("./db/result");
 const User = require("./db/user");
 
 exports.getStudentQuizModel = async (userId) => {
@@ -58,6 +59,14 @@ exports.getQuizByIdModel = async (userId, quizId) => {
             throw ("User is not enrolled in the course for this quiz")
         }
 
+        
+        const getResult = await Result.findOne({ course_name:quiz.course_name, batch:quiz.course.batch, quiz_name:quiz.quiz_name });
+        // console.log(getResult)
+        if (getResult) {
+            throw ('Result already submitted for this Quiz!');
+        }
+        console.log(quiz.course_name , quiz.course.batch , quiz.quiz_name)
+
         // Check if the quiz is open
         if (!quiz.quizOpen) {
             throw ("Quiz is not open")
@@ -77,7 +86,7 @@ exports.getQuizByIdModel = async (userId, quizId) => {
             userId
         }
     } catch (error) {
-        throw error.message
+        throw error
     }
 }
 
@@ -93,3 +102,26 @@ exports.getProfileModel = async (userId) => {
         throw error.message
     }
 }
+
+exports.submitResultModel = async (userId, course_name, batch, quiz_name, totalQuestions, score) => {
+    try {
+        const getResult = await Result.findOne({ course_name, batch, quiz_name });
+
+        if (getResult) {
+            throw ('Result already submitted for this Quiz!');
+        }
+
+        const result = new Result({
+            userId, course_name, batch, quiz_name, totalQuestions, score
+        });
+
+        try {
+            await result.save();
+            return "Quiz Submitted!";
+        } catch (error) {
+            throw new Error('Error saving the result');
+        }
+    } catch (error) {
+        throw error;
+    }
+};
