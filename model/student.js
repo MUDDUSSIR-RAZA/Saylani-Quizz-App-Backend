@@ -8,25 +8,25 @@ exports.getStudentQuizModel = async (userId) => {
             throw ('User not found');
         }
         const enrolledCourses = user.courses.filter(course => course.status === 'enrolled');
-        
+
         if (enrolledCourses.length === 0) {
             throw ('User is not enrolled in any courses');
         }
-        
+
         const filterQuizzes = [];
-        
+
         for (const course of enrolledCourses) {
             const quizzes = await Quiz.find({
                 course_name: course.course_name,
                 quizOpen: true,
                 $expr: { $gte: [{ $size: "$questions" }, 10] }
             }).populate('questions');
-            
+
             quizzes.forEach(quiz => {
                 filterQuizzes.push(quiz);
             });
         }
-        
+
         return filterQuizzes;
     } catch (error) {
         throw error.message
@@ -42,7 +42,10 @@ exports.getQuizByIdModel = async (userId, quizId) => {
         }
 
         // Find the quiz by ID and populate the course and questions
-        const quiz = await Quiz.findById(quizId).populate("questions");
+        const quiz = await Quiz.findById(quizId).populate("questions").populate({
+            path: "course",
+            select: "batch"
+        });
         if (!quiz) {
             throw ("Quiz not found")
         }
@@ -71,6 +74,7 @@ exports.getQuizByIdModel = async (userId, quizId) => {
         return {
             ...quiz.toObject(),
             questions: selectedQuestions,
+            userId
         }
     } catch (error) {
         throw error.message
@@ -83,7 +87,7 @@ exports.getProfileModel = async (userId) => {
         if (!user) {
             throw ('User not found');
         }
-        
+
         return user;
     } catch (error) {
         throw error.message
