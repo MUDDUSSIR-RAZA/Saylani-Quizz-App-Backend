@@ -21,17 +21,14 @@ exports.getStudentQuizModel = async (userId) => {
                 course_name: course.course_name,
                 quizOpen: true,
                 $expr: { $gte: [{ $size: "$questions" }, 10] }
-            }).populate('questions');
+            }).populate({
+                path: "course",
+                select: "batch"
+            });
 
 
             for (const quiz of quizzes) {
-                const quizAttempted = await Result.findOne({
-                    user_id: userId, // Assuming you have a user_id field in Result schema
-                    course_name: quiz.course_name,
-                    batch: quiz.course.batch,
-                    quiz_name: quiz.quiz_name
-                });
-
+                const quizAttempted = await Result.findOne({ userId, course_name: quiz.course_name, batch: quiz.course.batch, quiz_name: quiz.quiz_name });
                 if (!quizAttempted) {
                     filterQuizzes.push(quiz);
                 }
