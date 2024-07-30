@@ -23,9 +23,19 @@ exports.getStudentQuizModel = async (userId) => {
                 $expr: { $gte: [{ $size: "$questions" }, 10] }
             }).populate('questions');
 
-            quizzes.forEach(quiz => {
-                filterQuizzes.push(quiz);
-            });
+
+            for (const quiz of quizzes) {
+                const quizAttempted = await Result.findOne({
+                    user_id: userId, // Assuming you have a user_id field in Result schema
+                    course_name: quiz.course_name,
+                    batch: quiz.course.batch,
+                    quiz_name: quiz.quiz_name
+                });
+
+                if (!quizAttempted) {
+                    filterQuizzes.push(quiz);
+                }
+            }
         }
 
         return filterQuizzes;
@@ -59,12 +69,12 @@ exports.getQuizByIdModel = async (userId, quizId) => {
             throw ("User is not enrolled in the course for this quiz")
         }
 
-        
-        const getResult = await Result.findOne({ course_name:quiz.course_name, batch:quiz.course.batch, quiz_name:quiz.quiz_name });
+
+        const getResult = await Result.findOne({ userId, course_name: quiz.course_name, batch: quiz.course.batch, quiz_name: quiz.quiz_name });
         if (getResult) {
             throw ('Result already submitted for this Quiz!');
         }
-        console.log(quiz.course_name , quiz.course.batch , quiz.quiz_name)
+        console.log(quiz.course_name, quiz.course.batch, quiz.quiz_name)
 
         // Check if the quiz is open
         if (!quiz.quizOpen) {
@@ -104,7 +114,7 @@ exports.getProfileModel = async (userId) => {
 
 exports.submitResultModel = async (userId, course_name, batch, quiz_name, totalQuestions, score) => {
     try {
-        const getResult = await Result.findOne({ course_name, batch, quiz_name });
+        const getResult = await Result.findOne({ userId, course_name, batch, quiz_name });
 
         if (getResult) {
             throw ('Result already submitted for this Quiz!');
@@ -116,6 +126,12 @@ exports.submitResultModel = async (userId, course_name, batch, quiz_name, totalQ
 
         try {
             await result.save();
+
+            await User.findByIdAndUpdate(userId, {
+                $push: {
+                    results: result._id
+                }
+            })
             return "Quiz Submitted!";
         } catch (error) {
             throw new Error('Error saving the result');
