@@ -61,7 +61,6 @@ exports.getQuizByIdModel = async (userId, quizId) => {
 
         
         const getResult = await Result.findOne({ course_name:quiz.course_name, batch:quiz.course.batch, quiz_name:quiz.quiz_name });
-        // console.log(getResult)
         if (getResult) {
             throw ('Result already submitted for this Quiz!');
         }
