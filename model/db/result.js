@@ -7,7 +7,7 @@ const resultSchema = new Schema({
     batch: { type: String, required: [true, "Course batch is required."] },
     totalQuestions: { type: Number, required: [true, "Total Question is required."] },
     score: { type: Number, required: [true, "Score is required."] },
-
+    date: { type: Date, default: Date.now, },
 })
 
 const Result = mongoose.model('Result', resultSchema)
