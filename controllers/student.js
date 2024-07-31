@@ -1,4 +1,4 @@
-const { getStudentQuizModel, getQuizByIdModel, getProfileModel, submitResultModel } = require('../model/student');
+const { getStudentQuizModel, getQuizByIdModel, getProfileModel, submitResultModel, getOverallPerformanceModel } = require('../model/student');
 
 jwt = require('jsonwebtoken');
 
@@ -35,6 +35,16 @@ exports.getProfileController = async (token) => {
 exports.submitResultController = async ( userId, course_name , batch , quiz_name , totalQuestions , score ) => {
     try {
         const resp = await submitResultModel( userId, course_name , batch , quiz_name , totalQuestions , score )
+        return resp
+    } catch (error) {
+        throw error
+    }
+}
+
+exports.getOverallPerformanceController = async (token) => {
+    try {
+        const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
+        const resp = getOverallPerformanceModel(userId)
         return resp
     } catch (error) {
         throw error
