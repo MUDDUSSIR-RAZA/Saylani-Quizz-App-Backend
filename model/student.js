@@ -137,3 +137,12 @@ exports.submitResultModel = async (userId, course_name, batch, quiz_name, totalQ
         throw error;
     }
 };
+
+exports.getOverallPerformanceModel = async (userId) => {
+    try {
+        const result = await Result.find({userId})
+        return result;
+    } catch (error) {
+        throw error.message
+    }
+}
