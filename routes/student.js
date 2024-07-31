@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getStudentQuizController, getQuizByIdController, getProfileController, submitResultController } = require("../controllers/student");
+const { getStudentQuizController, getQuizByIdController, getProfileController, submitResultController, getOverallPerformanceController } = require("../controllers/student");
 
 const router = Router()
 
@@ -51,5 +51,15 @@ router.post("/submitResult", async (req, res) => {
     }
 });
 
+
+router.get("/getOverallPerformance", async (req, res) => {
+    try {
+        const token = req.query.token;
+        const resp = await getOverallPerformanceController(token)
+        res.status(200).json(resp)
+    } catch (err) {
+        res.status(404).json(err)
+    }
+})
 
 module.exports = router
