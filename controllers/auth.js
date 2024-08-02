@@ -25,6 +25,7 @@ exports.loginController = async (email, password) => {
       throw "Wrong Email!";
     }
 
+
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
       throw "Wrong Password!";
