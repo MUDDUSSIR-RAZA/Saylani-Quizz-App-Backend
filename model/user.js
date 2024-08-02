@@ -23,10 +23,9 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
           throw (`User is already ${anOtherCourse.status} in Another course.`);
         }
       }
-      console.log("Course added to existing user.")
       existingUser.courses.push({ course_name, batch, city });
       await existingUser.save();
-      return "Course added to existing user.";
+      return "Applied For Course.";
 
     } else {
       const user = new User({
@@ -47,7 +46,6 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
         await user.save();
         return "Request sent for approval!";
       } catch (error) {
-        console.log(error)
         if (error.name === 'ValidationError') {
           for (field in error.errors) {
             throw new Error(error.errors[field].message);
