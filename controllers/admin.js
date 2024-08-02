@@ -36,9 +36,9 @@ exports.getCoursesController = async () => {
     }
 }
 
-exports.addQuizController = async (course_name, course_id, quiz_name, key) => {
+exports.addQuizController = async (course_name, course_id, quiz_name) => {
     try {
-        const resp = await addQuizModel(course_name, quiz_name, key, course_id)
+        const resp = await addQuizModel(course_name, quiz_name, course_id)
         return resp
     } catch (error) {
         throw error
@@ -64,9 +64,9 @@ exports.getQuizByIdController = async (id) => {
     }
 }
 
-exports.editQuizController = async ( _id, quiz_name, key, displayQuestions) => {
+exports.editQuizController = async ( _id, quiz_name, displayQuestions) => {
     try {
-        const resp = await editQuizModel( _id, quiz_name, key, displayQuestions)
+        const resp = await editQuizModel( _id, quiz_name, displayQuestions)
         return resp
     } catch (error) {
         throw error
