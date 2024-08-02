@@ -48,7 +48,7 @@ router.get("/getCourses", async (req, res) => {
 
 router.post("/addQuiz", async (req, res) => {
     try {
-        const resp = await addQuizController(req.body.course_name, req.body.course_id, req.body.quiz_name, req.body.key);
+        const resp = await addQuizController(req.body.course_name, req.body.course_id, req.body.quiz_name);
         return res.status(200).json(resp);
     } catch (error) {
         res.status(404).json(error)
@@ -76,7 +76,7 @@ router.get("/getQuizById", async (req, res) => {
 
 router.patch("/editQuiz", async (req, res) => {
     try {
-        const resp = await editQuizController(req.body._id, req.body.quiz_name, req.body.key, req.body.displayQuestions);
+        const resp = await editQuizController(req.body._id, req.body.quiz_name, req.body.displayQuestions);
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
