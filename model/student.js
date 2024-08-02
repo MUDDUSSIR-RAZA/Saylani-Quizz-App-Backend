@@ -44,16 +44,15 @@ exports.getStudentQuizModel = async (userId) => {
 exports.getQuizByIdModel = async (userId, quizId) => {
     try {
         // Verify the user ID
-        const user = await User.findById(userId);
+        const user = await User.findById(userId)
         if (!user) {
             throw ("User not found")
         }
 
+        const enrolledCourses = user.courses.filter(course => course.status === 'enrolled');
+
         // Find the quiz by ID and populate the course and questions
-        const quiz = await Quiz.findById(quizId).populate("questions").populate({
-            path: "course",
-            select: "batch"
-        });
+        const quiz = await Quiz.findById(quizId).populate("questions")
         if (!quiz) {
             throw ("Quiz not found")
         }
@@ -71,7 +70,6 @@ exports.getQuizByIdModel = async (userId, quizId) => {
         if (getResult) {
             throw ('Result already submitted for this Quiz!');
         }
-        console.log(quiz.course_name, quiz.course.batch, quiz.quiz_name)
 
         // Check if the quiz is open
         if (!quiz.quizOpen) {
@@ -89,7 +87,8 @@ exports.getQuizByIdModel = async (userId, quizId) => {
         return {
             ...quiz.toObject(),
             questions: selectedQuestions,
-            userId
+            userId,
+            batch: enrolledCourses[0].batch
         }
     } catch (error) {
         throw error
@@ -140,7 +139,7 @@ exports.submitResultModel = async (userId, course_name, batch, quiz_name, totalQ
 
 exports.getOverallPerformanceModel = async (userId) => {
     try {
-        const result = await Result.find({userId})
+        const result = await Result.find({ userId })
         return result;
     } catch (error) {
         throw error.message
