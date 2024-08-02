@@ -12,7 +12,6 @@ const quizSchema = new Schema({
     default: "10",
   },
   quizOpen: { type: Boolean, default: false },
-  key: { type: String, required: [true, "Please enter a password."] },
 });
 
 const Quiz = mongoose.model("Quiz", quizSchema);
