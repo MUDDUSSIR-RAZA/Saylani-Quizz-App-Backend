@@ -41,7 +41,6 @@ async function getNextSequenceValue(sequenceName) {
 }
 
 userSchema.pre('save', async function (next) {
-    console.log("dsfdsfdsfds")
     if (this.isNew || this.isModified('courses')) {
         for (let course of this.courses) {
             if (!course.roll_no) {
