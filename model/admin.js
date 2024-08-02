@@ -66,7 +66,7 @@ exports.getCoursesModel = async () => {
     }
 };
 
-exports.addQuizModel = async (course_name, quiz_name, key, course_id) => {
+exports.addQuizModel = async (course_name, quiz_name, course_id) => {
     try {
         const isQuiz = await Quiz.find({ quiz_name })
         const isCourse = await Quiz.find({ course_name })
@@ -74,7 +74,7 @@ exports.addQuizModel = async (course_name, quiz_name, key, course_id) => {
             if (isQuiz.length > 0 && isCourse.length > 0) {
                 throw ('Quiz existed!');
             }
-            const quiz = new Quiz({ course_name, quiz_name, key, course: course_id });
+            const quiz = new Quiz({ course_name, quiz_name, course: course_id });
             await quiz.save();
             const course = await Course.findByIdAndUpdate(course_id, {
                 $push: { quizzes: quiz._id },
@@ -116,9 +116,9 @@ exports.getQuizByIdModel = async (id) => {
     }
 };
 
-exports.editQuizModel = async (_id, quiz_name, key, displayQuestions) => {
+exports.editQuizModel = async (_id, quiz_name, displayQuestions) => {
     try {
-        const updatedFields = { quiz_name, key, displayQuestions };
+        const updatedFields = { quiz_name, displayQuestions };
 
         const result = await Quiz.findOneAndUpdate(
             { _id },
