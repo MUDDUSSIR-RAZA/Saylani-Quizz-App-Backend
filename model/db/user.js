@@ -15,7 +15,15 @@ const userSchema = new Schema({
     name: { type: String, required: [true, "Name is required."] },
     fathername: { type: String, required: [true, "Father's name is required."] },
     nic: {
-        type: String, unique: [true, "NIC already exists!"], required: [true, "NIC is required."],
+        type: String,
+        unique: [true, "NIC already exists!"],
+        required: [true, "NIC is required."],
+        validate: {
+            validator: function(v) {
+                return /^\d{13}$/.test(v);
+            },
+            message: props => `Enter a valid NIC number!`
+        }
     },
     password: { type: String, required: [true, "Please enter a password."] },
     email: {
