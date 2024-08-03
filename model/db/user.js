@@ -15,14 +15,14 @@ const userSchema = new Schema({
     name: { type: String, required: [true, "Name is required."] },
     fathername: { type: String, required: [true, "Father's name is required."] },
     nic: {
-        type: String,
+        type: Number,
         unique: [true, "NIC already exists!"],
         required: [true, "NIC is required."],
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{13}$/.test(v);
             },
-            message: props => `Enter a valid NIC number!`
+            message: `Enter a valid NIC number!`
         }
     },
     password: { type: String, required: [true, "Please enter a password."] },
@@ -32,7 +32,15 @@ const userSchema = new Schema({
         required: [true, "Email is required."],
     },
     attest: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
-    phone: { type: String, required: [true, "Phone number is required."] },
+    phone: {
+        type: Number, required: [true, "NIC is required."],
+        validate: {
+            validator: function (v) {
+                return /^\d{11}$/.test(v);
+            },
+            message: `Enter a valid Number!`
+        }
+    },
     courses: [courseSchema],
     role: { type: String, default: 'student' },
     results: [{ type: Schema.Types.ObjectId, ref: 'Result' }]
