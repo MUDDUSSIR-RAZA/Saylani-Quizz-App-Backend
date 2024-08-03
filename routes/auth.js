@@ -1,5 +1,5 @@
 const express = require("express");
-const { createUserController , updatePassword, updateName, updatePicture, loginController } = require("../controllers/auth");
+const { createUserController , updatePassword, updateName, updatePicture, loginController, createAdminController } = require("../controllers/auth");
 const router = express.Router();
 
 router.post("/signUp", async (req, res) => {
@@ -19,6 +19,20 @@ router.post("/signUp", async (req, res) => {
     res.status(200).json(resp);
   } catch (err) {
     console.log(err.Error)
+    res.status(400).json(err);
+  }
+});
+
+router.post("/admin/signUp", async (req, res) => {
+  try {
+    const email = req.body.email.toLowerCase();
+    const resp = await createAdminController(
+      req.body.name,
+      req.body.password,
+      email
+    );
+    res.status(200).json(resp);
+  } catch (err) {
     res.status(400).json(err);
   }
 });
