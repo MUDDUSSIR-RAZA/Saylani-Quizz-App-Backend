@@ -19,10 +19,10 @@ exports.createUserController = async (name, fathername, nic, password, email, ph
   }
 };
 
-exports.createAdminController = async (name,password, email) => {
+exports.createAdminController = async (name,password, email,phone) => {
   try {
     const hashPass = await bcrypt.hash(password, 12);
-    return await createAdminModel(name, email, hashPass);
+    return await createAdminModel(name, hashPass ,email, phone);
   } catch (err) {
     throw err
   }
