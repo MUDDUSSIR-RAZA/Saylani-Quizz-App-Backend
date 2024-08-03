@@ -1,4 +1,5 @@
 const User = require("../model/db/user");
+const Admin = require("./db/admin");
 
 exports.createUserModel = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
   try {
@@ -49,9 +50,45 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
         if (error.name === 'ValidationError') {
           // Iterate through each field error
           for (let field in error.errors) {
-              throw (error.errors[field].message);
+            throw (error.errors[field].message);
           }
-      }else if (error.code === 11000) {
+        } else if (error.code === 11000) {
+          throw ('NIC or email already exists!');
+        } else {
+          throw ('An unknown error occurred: ' + error);
+        }
+      }
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.createAdminModel = async (name, email, password) => {
+  try {
+    const existingAdmin = await Admin.findOne({ email });
+    const existingUser = await User.findOne({ email });
+
+    if (existingAdmin || existingUser) {
+      throw (`Email Already existed`);
+      
+    } else {
+      const admin = new Admin({
+        name,
+        email,
+        password
+      });
+      
+      try {
+        await admin.save();
+        return "Request sent for approval!";
+      } catch (error) {
+        if (error.name === 'ValidationError') {
+          // Iterate through each field error
+          for (let field in error.errors) {
+            throw (error.errors[field].message);
+          }
+        } else if (error.code === 11000) {
           throw ('NIC or email already exists!');
         } else {
           throw ('An unknown error occurred: ' + error);
