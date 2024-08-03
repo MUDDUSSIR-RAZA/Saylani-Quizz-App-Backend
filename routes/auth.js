@@ -29,7 +29,8 @@ router.post("/admin/signUp", async (req, res) => {
     const resp = await createAdminController(
       req.body.name,
       req.body.password,
-      email
+      email,
+      req.body.phone,
     );
     res.status(200).json(resp);
   } catch (err) {
