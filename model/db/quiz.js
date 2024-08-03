@@ -7,7 +7,7 @@ const quizSchema = new Schema({
   course_name: { type: String, required: [true, "Course name is required."] },
   quiz_name: { type: String, required: [true, "Course name is required."] },
   displayQuestions: {
-    type: String,
+    type: Number,
     required: [true, "Phone number is required."],
     default: "10",
   },
