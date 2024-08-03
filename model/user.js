@@ -47,13 +47,14 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
         return "Request sent for approval!";
       } catch (error) {
         if (error.name === 'ValidationError') {
-          for (field in error.errors) {
-            throw new Error(error.errors[field].message);
+          // Iterate through each field error
+          for (let field in error.errors) {
+              throw (error.errors[field].message);
           }
-        } else if (error.code === 11000) {
-          throw new Error('NIC or email already exists!');
+      }else if (error.code === 11000) {
+          throw ('NIC or email already exists!');
         } else {
-          throw new Error('An unknown error occurred: ' + error);
+          throw ('An unknown error occurred: ' + error);
         }
       }
     }
