@@ -13,7 +13,7 @@ const courseSchema = new Schema({
             message: "Course already exists!"
         }
     },
-    batch: { type: String, required: [true, "Course batch is required."] },
+    batch: { type: Number, required: [true, "Course batch is required."] },
     cities: [{
         type: String, required: [true, "City required."],
     }],
