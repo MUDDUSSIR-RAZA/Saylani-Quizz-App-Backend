@@ -28,8 +28,8 @@ router.post("/admin/signUp", async (req, res) => {
     const email = req.body.email.toLowerCase();
     const resp = await createAdminController(
       req.body.name,
-      req.body.password,
       email,
+      req.body.password,
       req.body.phone,
     );
     res.status(200).json(resp);
