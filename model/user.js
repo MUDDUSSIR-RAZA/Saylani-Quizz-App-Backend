@@ -66,6 +66,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
 
 exports.createAdminModel = async (name, email, password , phone) => {
   try {
+    // console.log(email)
     const existingAdmin = await Admin.findOne({ email });
     const existingUser = await User.findOne({ email });
 
@@ -73,7 +74,6 @@ exports.createAdminModel = async (name, email, password , phone) => {
       throw (`Email Already existed`);
       
     } else {
-      console.log(phone)
       const admin = new Admin({
         name,
         email,
@@ -150,6 +150,16 @@ exports.updatePicture = async (email, picture) => {
 exports.findUserModel = async (email) => {
   try {
     return await User.findOne({ email });
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.findAdminModel = async (email) => {
+  try {
+   const result =  await Admin.findOne({ email });
+   console.log(result)
+    return "result"
   } catch (err) {
     throw err;
   }
