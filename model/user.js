@@ -66,7 +66,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
 
 exports.createAdminModel = async (name, email, password , phone) => {
   try {
-    // console.log(email)
+    console.log(name, email, password , phone)
     const existingAdmin = await Admin.findOne({ email });
     const existingUser = await User.findOne({ email });
 
