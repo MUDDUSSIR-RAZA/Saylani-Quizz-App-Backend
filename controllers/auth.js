@@ -36,8 +36,6 @@ exports.loginController = async (email, password) => {
     if (admin) {
       const result = await bcrypt.compare(password, admin.password);
 
-      console.log(admin, result)
-
       if (!result) {
         throw "Wrong Password!";
       }
@@ -51,14 +49,10 @@ exports.loginController = async (email, password) => {
       return token;
     }
     const user = await findUserModel(email);
-
-    console.log(user, result)
-
     if (!user) {
       throw "Wrong Email!";
     }
-
-
+    
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
       throw "Wrong Password!";
