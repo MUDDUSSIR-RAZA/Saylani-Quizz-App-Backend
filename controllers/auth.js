@@ -42,7 +42,6 @@ exports.loginController = async (email, password) => {
 
       let adminId = admin._id;
       let role = admin.role;
-
       let token = jwt.sign({ adminId, email, role }, process.env.SECRET_KEY, {
         expiresIn: "24h",
       });
@@ -62,10 +61,11 @@ exports.loginController = async (email, password) => {
     if (attest != "verified") {
       throw attest
     }
-
+    
     let userId = user._id;
     let role = user.role;
-
+    
+    console.log(userId, email, role)
     let token = jwt.sign({ userId, email, role }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
