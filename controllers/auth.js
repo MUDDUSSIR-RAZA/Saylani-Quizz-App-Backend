@@ -5,6 +5,7 @@ const {
   updateName,
   updatePicture,
   createAdminModel,
+  findAdminModel,
 } = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -19,10 +20,11 @@ exports.createUserController = async (name, fathername, nic, password, email, ph
   }
 };
 
-exports.createAdminController = async (name,password, email,phone) => {
+exports.createAdminController = async (name, email, password, phone) => {
   try {
     const hashPass = await bcrypt.hash(password, 12);
-    return await createAdminModel(name, hashPass ,email, phone);
+    console.log(email)
+    return await createAdminModel(name, hashPass, email, phone);
   } catch (err) {
     throw err
   }
@@ -30,7 +32,29 @@ exports.createAdminController = async (name,password, email,phone) => {
 
 exports.loginController = async (email, password) => {
   try {
+    const admin = await findAdminModel(email);
+
+    if (admin) {
+      const result = await bcrypt.compare(password, admin.password);
+
+      console.log(admin, result)
+
+      if (!result) {
+        throw "Wrong Password!";
+      }
+
+      let adminId = admin._id;
+      let role = admin.role;
+
+      let token = jwt.sign({ adminId, email, role }, process.env.SECRET_KEY, {
+        expiresIn: "24h",
+      });
+      return token;
+    }
     const user = await findUserModel(email);
+
+    console.log(user, result)
+
     if (!user) {
       throw "Wrong Email!";
     }
