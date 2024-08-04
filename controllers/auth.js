@@ -65,7 +65,6 @@ exports.loginController = async (email, password) => {
     let userId = user._id;
     let role = user.role;
     
-    console.log(userId, email, role)
     let token = jwt.sign({ userId, email, role }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
