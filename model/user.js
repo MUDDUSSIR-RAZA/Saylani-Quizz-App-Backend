@@ -64,14 +64,14 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
   }
 };
 
-exports.createAdminModel = async (name, email, password , phone) => {
+exports.createAdminModel = async (name, email, password, phone) => {
   try {
     const existingAdmin = await Admin.findOne({ email });
     const existingUser = await User.findOne({ email });
 
     if (existingAdmin || existingUser) {
       throw (`Email Already existed`);
-      
+
     } else {
       const admin = new Admin({
         name,
@@ -79,7 +79,7 @@ exports.createAdminModel = async (name, email, password , phone) => {
         phone,
         password
       });
-      
+
       try {
         await admin.save();
         return "Request sent for approval!";
@@ -156,9 +156,8 @@ exports.findUserModel = async (email) => {
 
 exports.findAdminModel = async (email) => {
   try {
-   const result =  await Admin.findOne({ email });
-   console.log(result)
-    return "result"
+    const result = await Admin.findOne({ email });
+    return result
   } catch (err) {
     throw err;
   }
