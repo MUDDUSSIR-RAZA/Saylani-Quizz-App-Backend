@@ -50,7 +50,7 @@ exports.getQuizByIdModel = async (userId, quizId) => {
 
         const enrolledCourses = user.courses.filter(course => course.status === 'enrolled');
 
-        // Find the quiz by ID and populate the course and questions
+        // Find the quiz by ID and populate the questions
         const quiz = await Quiz.findById(quizId).populate("questions")
         if (!quiz) {
             throw ("Quiz not found")
