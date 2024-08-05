@@ -43,7 +43,6 @@ exports.getStudentQuizModel = async (userId) => {
 
 exports.getQuizByIdModel = async (userId, quizId) => {
     try {
-        // Verify the user ID
         const user = await User.findById(userId)
         if (!user) {
             throw ("User not found")
