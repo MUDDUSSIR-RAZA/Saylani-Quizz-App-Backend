@@ -70,7 +70,7 @@ exports.getQuizByIdModel = async (userId, quizId) => {
             throw ('Result already submitted for this Quiz!');
         }
 
-        // Check if the quiz is open
+        // 
         if (!quiz.quizOpen) {
             throw ("Quiz is not open")
         }
