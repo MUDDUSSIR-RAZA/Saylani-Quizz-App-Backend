@@ -10,7 +10,7 @@ exports.createBlog = async (author, title, description) => {
       date: Date.now(),
     });
     await blog.save();
-    // 
+    
     const user = await User.findByIdAndUpdate(author, {
       $push: { blogs: blog._id },
     });
