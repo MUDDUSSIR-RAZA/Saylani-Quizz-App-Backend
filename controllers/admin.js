@@ -66,7 +66,6 @@ exports.getQuizByIdController = async (id) => {
 
 exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen) => {
     try {
-        console.log(quizOpen)
         const resp = await editQuizModel( _id, quiz_name, displayQuestions, quizOpen)
         return resp
     } catch (error) {
