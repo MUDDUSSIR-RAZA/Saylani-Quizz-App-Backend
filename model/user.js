@@ -54,7 +54,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
             throw (error.errors[field].message);
           }
         } else if (error.code === 11000) {
-          throw ('NIC or email already exists!');
+          throw ('Email already exists!');
         } else {
           throw ('An unknown error occurred: ' + error);
         }
@@ -67,6 +67,8 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
 
 exports.createAdminModel = async (name, email, password, phone) => {
   try {
+    const existingAllAdmins = await Admin.find();
+
     const existingAdmin = await Admin.findOne({ email });
     const existingUser = await User.findOne({ email });
 
@@ -78,7 +80,8 @@ exports.createAdminModel = async (name, email, password, phone) => {
         name,
         email,
         phone,
-        password
+        password,
+        ...(existingAllAdmins.length === 0 ? { isVerified: 'verified' } : {})
       });
 
       try {
@@ -86,12 +89,11 @@ exports.createAdminModel = async (name, email, password, phone) => {
         return "Request sent for approval!";
       } catch (error) {
         if (error.name === 'ValidationError') {
-          // Iterate through each field error
           for (let field in error.errors) {
             throw (error.errors[field].message);
           }
         } else if (error.code === 11000) {
-          throw ('NIC or email already exists!');
+          throw ('Eemail already exists!');
         } else {
           throw ('An unknown error occurred: ' + error);
         }
