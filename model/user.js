@@ -2,6 +2,7 @@ const User = require("../model/db/user");
 const Admin = require("./db/admin");
 
 exports.createUserModel = async (name, fathername, nic, email, phone, city, course_name, batch, password) => {
+  console.log(phone)
   try {
     const existingUser = await User.findOne({ nic });
 
@@ -29,6 +30,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
       return "Applied For Course.";
 
     } else {
+      console.log(phone)
       const user = new User({
         name,
         fathername,
