@@ -1,5 +1,5 @@
 const express = require("express")
-const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, addQuestionController, getAllQuizzesController, getQuizByIdController, editQuizController, addBulkQuestionsController } = require("../controllers/admin")
+const { getStudentRequestsController, attestStudentRequestController, addCourseController, getCoursesController, addQuizController, addQuestionController, getAllQuizzesController, getQuizByIdController, editQuizController, addBulkQuestionsController, deleteQuizController } = require("../controllers/admin")
 
 const router = express.Router()
 
@@ -85,9 +85,8 @@ router.patch("/editQuiz", async (req, res) => {
 
 router.post("/deleteQuiz", async (req, res) => {
     try {
-    //   const resp = await deleteBlog(req.body._id);
-      console.log(req.body._id)
-      res.status(200).json("resp");
+      const resp = await deleteQuizController(req.body._id);
+      res.status(200).json(resp);
     } catch (err) {
       res.status(400).json(err);
     }
