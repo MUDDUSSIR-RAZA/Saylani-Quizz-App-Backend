@@ -138,7 +138,6 @@ exports.editQuizModel = async (_id, quiz_name, displayQuestions, quizOpen) => {
 
 exports.deleteQuizModel = async ( _id ) => {
     try {
-           // Find the quiz by its ID
            const quiz = await Quiz.findById(_id);
 
            if (!quiz) {
