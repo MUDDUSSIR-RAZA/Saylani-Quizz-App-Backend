@@ -136,6 +136,33 @@ exports.editQuizModel = async (_id, quiz_name, displayQuestions, quizOpen) => {
     }
 };
 
+exports.deleteQuizModel = async ( _id ) => {
+    try {
+           // Find the quiz by its ID
+           const quiz = await Quiz.findById(_id);
+
+           if (!quiz) {
+               throw new Error("Quiz not found!");
+           }
+   
+           // Delete all the questions associated with the quiz
+           await Question.deleteMany({ _id: { $in: quiz.questions } });
+   
+           // Remove the quiz ID from the course
+           await Course.updateOne(
+               { _id: quiz.course },
+               { $pull: { quizzes: _id } } // Assumes the course has a 'quizzes' array field
+           );
+   
+           // Finally, delete the quiz itself
+           await Quiz.findByIdAndDelete(_id);
+   
+           return "Quiz Successfully Deleted!";
+    } catch (err) {
+        throw new Error(`Error updating quiz: ${err.message}`);
+    }
+};
+
 
 exports.addQuestionModel = async (quizId, question_text, options, correctAnswer, time_limit) => {
     try {
