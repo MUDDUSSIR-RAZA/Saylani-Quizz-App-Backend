@@ -76,7 +76,7 @@ router.get("/getQuizById", async (req, res) => {
 
 router.patch("/editQuiz", async (req, res) => {
     try {
-        const resp = await editQuizController(req.body._id, req.body.quiz_name, req.body.displayQuestions);
+        const resp = await editQuizController(req.body._id, req.body.quiz_name, req.body.displayQuestions , req.body.quizOpen);
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
