@@ -138,10 +138,13 @@ exports.editQuizModel = async (_id, quiz_name, displayQuestions, quizOpen) => {
 
 exports.deleteQuizModel = async ( _id ) => {
     try {
-           const quiz = await Quiz.findById(_id);
+        console.log(_id)
+           const quiz = await Quiz.findById({_id});
+
+           console.log(quiz)
 
            if (!quiz) {
-               throw new Error("Quiz not found!");
+               throw ("Quiz not found!");
            }
    
            await Question.deleteMany({ _id: { $in: quiz.questions } });
