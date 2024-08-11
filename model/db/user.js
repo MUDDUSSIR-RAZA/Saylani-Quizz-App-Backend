@@ -33,7 +33,7 @@ const userSchema = new Schema({
     },
     attest: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
     phone: {
-        type: Number, required: [true, "NIC is required."],
+        type: String, required: [true, "Phone is required."],
         validate: {
             validator: function (v) {
                 return /^\d{11}$/.test(v);
