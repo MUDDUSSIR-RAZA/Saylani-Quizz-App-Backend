@@ -148,7 +148,7 @@ exports.deleteQuizModel = async ( _id ) => {
    
            await Course.updateOne(
                { _id: quiz.course },
-               { $pull: { quizzes: _id } } // Assumes the course has a 'quizzes' array field
+               { $pull: { quizzes: _id } } 
            );
    
            await Quiz.findByIdAndDelete(_id);
