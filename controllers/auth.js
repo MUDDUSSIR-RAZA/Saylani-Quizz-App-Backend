@@ -14,7 +14,7 @@ const User = require("../model/db/user");
 exports.createUserController = async (name, fathername, nic, password, email, phone, city, course_name, batch) => {
   try {
     const hashPass = await bcrypt.hash(password, 12);
-    return await createAdminModel(name, fathername, nic, email, phone, city, course_name, batch, hashPass);
+    return await createUserModel(name, fathername, nic, email, phone, city, course_name, batch, hashPass);
   } catch (err) {
     throw err
   }
