@@ -15,7 +15,7 @@ const adminSchema = new mongoose.Schema({
         required: true,
     }, 
     phone: {
-        type: String, required: [true, "NIC is required."],
+        type: String, required: [true, "Phone is required."],
         validate: {
             validator: function (v) {
                 return /^\d{11}$/.test(v);
@@ -27,6 +27,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         default: 'admin',
     },
+    isVerified: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
 });
 
 const Admin = mongoose.model('Admin', adminSchema);
