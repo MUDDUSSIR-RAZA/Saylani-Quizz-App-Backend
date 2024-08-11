@@ -36,6 +36,11 @@ exports.loginController = async (email, password) => {
     if (admin) {
       const result = await bcrypt.compare(password, admin.password);
 
+      let isVerified = admin.isVerified;
+      if (isVerified != "verified") {
+        throw isVerified
+      }
+
       if (!result) {
         throw "Wrong Password!";
       }
@@ -51,7 +56,7 @@ exports.loginController = async (email, password) => {
     if (!user) {
       throw "Wrong Email!";
     }
-    
+
     const result = await bcrypt.compare(password, user.password);
     if (!result) {
       throw "Wrong Password!";
@@ -61,10 +66,10 @@ exports.loginController = async (email, password) => {
     if (attest != "verified") {
       throw attest
     }
-    
+
     let userId = user._id;
     let role = user.role;
-    
+
     let token = jwt.sign({ userId, email, role }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
