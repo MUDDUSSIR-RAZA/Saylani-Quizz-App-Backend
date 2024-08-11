@@ -143,7 +143,6 @@ exports.deleteQuizModel = async (_id) => {
         if (!quiz || quiz == null) {
             throw ("Quiz not found!");
         }
-        console.log(quiz)
 
         await Question.deleteMany({ _id: { $in: quiz.questions } });
 
