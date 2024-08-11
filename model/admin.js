@@ -116,9 +116,9 @@ exports.getQuizByIdModel = async (id) => {
     }
 };
 
-exports.editQuizModel = async (_id, quiz_name, displayQuestions) => {
+exports.editQuizModel = async (_id, quiz_name, displayQuestions, quizOpen) => {
     try {
-        const updatedFields = { quiz_name, displayQuestions };
+        const updatedFields = { quiz_name, displayQuestions, quizOpen };
 
         const result = await Quiz.findOneAndUpdate(
             { _id },
