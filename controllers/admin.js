@@ -67,7 +67,7 @@ exports.getQuizByIdController = async (id) => {
 exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen) => {
     try {
         console.log(quizOpen)
-        const resp = await deleteQuizModel( _id, quiz_name, displayQuestions, quizOpen)
+        const resp = await editQuizModel( _id, quiz_name, displayQuestions, quizOpen)
         return resp
     } catch (error) {
         throw error
@@ -76,7 +76,7 @@ exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen)
 
 exports.deleteQuizController = async ( _id ) => {
     try {
-        const resp = await editQuizModel( _id )
+        const resp = await deleteQuizModel( _id )
         return resp
     } catch (error) {
         throw error
