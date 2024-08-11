@@ -88,6 +88,7 @@ router.post("/deleteQuiz", async (req, res) => {
       const resp = await deleteQuizController(req.body._id);
       res.status(200).json(resp);
     } catch (err) {
+        console.log(err)
       res.status(400).json(err);
     }
   });
