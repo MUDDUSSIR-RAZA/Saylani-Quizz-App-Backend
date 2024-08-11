@@ -83,6 +83,16 @@ router.patch("/editQuiz", async (req, res) => {
     }
 })
 
+router.post("/deleteQuiz", async (req, res) => {
+    try {
+    //   const resp = await deleteBlog(req.body._id);
+      console.log(req.body._id)
+      res.status(200).json("resp");
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  });
+
 router.post("/addQuestion", async (req, res) => {
     try {
         const resp = await addQuestionController(req.body.quizId, req.body.question_text, req.body.options, req.body.correctAnswer, req.body.time_limit);
