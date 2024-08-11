@@ -144,7 +144,6 @@ exports.deleteQuizModel = async ( _id ) => {
                throw new Error("Quiz not found!");
            }
    
-           // Delete all the questions associated with the quiz
            await Question.deleteMany({ _id: { $in: quiz.questions } });
    
            // Remove the quiz ID from the course
