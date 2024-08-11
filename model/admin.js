@@ -146,7 +146,6 @@ exports.deleteQuizModel = async ( _id ) => {
    
            await Question.deleteMany({ _id: { $in: quiz.questions } });
    
-           // Remove the quiz ID from the course
            await Course.updateOne(
                { _id: quiz.course },
                { $pull: { quizzes: _id } } // Assumes the course has a 'quizzes' array field
