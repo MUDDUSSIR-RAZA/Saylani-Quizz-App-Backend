@@ -1,4 +1,4 @@
-const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, addQuestionModel, getAllQuizzesModel, getQuizByIdModel, editQuizModel, addBulkQuestionsModel } = require("../model/admin");
+const { getStudentRequestModel, attestStudentRequestModel, addCourseModel, getCoursesModel, addQuizModel, addQuestionModel, getAllQuizzesModel, getQuizByIdModel, editQuizModel, addBulkQuestionsModel, deleteQuizModel } = require("../model/admin");
 
 exports.getStudentRequestsController = async () => {
     try {
@@ -67,7 +67,7 @@ exports.getQuizByIdController = async (id) => {
 exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen) => {
     try {
         console.log(quizOpen)
-        const resp = await editQuizModel( _id, quiz_name, displayQuestions, quizOpen)
+        const resp = await deleteQuizModel( _id, quiz_name, displayQuestions, quizOpen)
         return resp
     } catch (error) {
         throw error
@@ -76,7 +76,6 @@ exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen)
 
 exports.deleteQuizController = async ( _id ) => {
     try {
-        console.log(quizOpen)
         const resp = await editQuizModel( _id )
         return resp
     } catch (error) {
