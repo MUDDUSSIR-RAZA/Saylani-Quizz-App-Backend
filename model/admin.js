@@ -136,29 +136,27 @@ exports.editQuizModel = async (_id, quiz_name, displayQuestions, quizOpen) => {
     }
 };
 
-exports.deleteQuizModel = async ( _id ) => {
+exports.deleteQuizModel = async (_id) => {
     try {
-        console.log(_id)
-           const quiz = await Quiz.findById({_id});
+        const quiz = await Quiz.findById({ _id });
+        
+        if (!quiz || quiz == null) {
+            throw ("Quiz not found!");
+        }
+        console.log(quiz)
 
-           console.log(quiz)
+        await Question.deleteMany({ _id: { $in: quiz.questions } });
 
-           if (!quiz) {
-               throw ("Quiz not found!");
-           }
-   
-           await Question.deleteMany({ _id: { $in: quiz.questions } });
-   
-           await Course.updateOne(
-               { _id: quiz.course },
-               { $pull: { quizzes: _id } } 
-           );
-   
-           await Quiz.findByIdAndDelete(_id);
-   
-           return "Quiz Successfully Deleted!";
+        await Course.updateOne(
+            { _id: quiz.course },
+            { $pull: { quizzes: _id } }
+        );
+
+        await Quiz.findByIdAndDelete(_id);
+
+        return "Quiz Successfully Deleted!";
     } catch (err) {
-        throw new Error(`Error updating quiz: ${err.message}`);
+        throw (err);
     }
 };
 
