@@ -27,7 +27,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         default: 'admin',
     },
-    isVerified: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'pending', required: [true, "Status is required."] },
+    isVerified: { type: String, enum: ['pending', 'verified', 'Unverified'], default: 'verified', required: [true, "Status is required."] },
 });
 
 const Admin = mongoose.model('Admin', adminSchema);
