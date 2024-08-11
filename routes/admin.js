@@ -40,6 +40,7 @@ router.post("/addCourse", async (req, res) => {
 router.get("/getCourses", async (req, res) => {
     try {
         const resp = await getCoursesController()
+        console.log(resp)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
