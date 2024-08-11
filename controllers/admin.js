@@ -74,6 +74,16 @@ exports.editQuizController = async ( _id, quiz_name, displayQuestions ,quizOpen)
     }
 }
 
+exports.deleteQuizController = async ( _id ) => {
+    try {
+        console.log(quizOpen)
+        const resp = await editQuizModel( _id )
+        return resp
+    } catch (error) {
+        throw error
+    }
+}
+
 exports.addQuestionController = async (quizId, question_text, options, correctAnswer, time_limit) => {
     try {
         const resp = await addQuestionModel(quizId, question_text, options, correctAnswer, time_limit)
