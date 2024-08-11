@@ -151,7 +151,6 @@ exports.deleteQuizModel = async ( _id ) => {
                { $pull: { quizzes: _id } } // Assumes the course has a 'quizzes' array field
            );
    
-           // Finally, delete the quiz itself
            await Quiz.findByIdAndDelete(_id);
    
            return "Quiz Successfully Deleted!";
