@@ -131,21 +131,6 @@ exports.updateName = async (email, firstName) => {
   }
 };
 
-exports.updatePicture = async (email, picture) => {
-  try {
-    const pic = {
-      picture
-    };
-    const result = await User.findOneAndUpdate({ email }, pic, { new: true });
-    if (!result) {
-      throw "User not Found!";
-    }
-    return "Picture Successfully Updated!";
-  } catch (err) {
-    throw err;
-  }
-};
-
 exports.findUserModel = async (email) => {
   try {
     return await User.findOne({ email });
