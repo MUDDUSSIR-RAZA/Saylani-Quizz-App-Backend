@@ -30,7 +30,6 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
       return "Applied For Course.";
 
     } else {
-      console.log(phone)
       const user = new User({
         name,
         fathername,
