@@ -18,10 +18,24 @@ const public = path.join(process.cwd(), "public");
 app.use(bodyparser.json({ limit: '50mb' }));
 app.use(bodyparser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static(public));
-app.use(cors({
-  origin: 'http://localhost:3000', // Replace with the actual origin of your frontend
-  credentials: true, // Allow credentials (cookies)
-}));
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://saylani-quizz-app.vercel.app"
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // If you need to send cookies or other credentials
+};
+
+app.use(cors(corsOptions));
 
 app.set("view engine", "ejs");
 app.set("views", "views");
