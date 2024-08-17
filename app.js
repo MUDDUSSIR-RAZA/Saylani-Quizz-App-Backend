@@ -19,9 +19,7 @@ app.use(bodyparser.json({ limit: '50mb' }));
 app.use(bodyparser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static(public));
 
-app.use(cors()); // This will allow all origins by default
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.set("view engine", "ejs");
 app.set("views", "views");
