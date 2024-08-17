@@ -2,7 +2,6 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const path = require("path");
 const cors = require("cors");
-const http = require("http");
 
 const auth = require("./routes/auth");
 const admin = require("./routes/admin");
@@ -25,14 +24,9 @@ app.use(cors());
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+
 app.use("/auth", auth);
-app.use("/admin", admin);
-app.use("/student", student);
+app.use("/admin", admin )
+app.use("/student" , student)
 
-// Create the server and set a timeout limit
-const server = http.createServer(app);
-server.timeout = 300000; // 300,000 milliseconds = 5 minutes
-
-server.listen(5000, () => {
-    console.log('Server is running on port 5000');
-});
+app.listen(5000);
