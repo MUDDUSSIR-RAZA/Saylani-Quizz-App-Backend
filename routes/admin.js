@@ -40,7 +40,6 @@ router.post("/addCourse", async (req, res) => {
 router.get("/getCourses", async (req, res) => {
     try {
         const resp = await getCoursesController()
-        console.log(resp)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
@@ -89,7 +88,6 @@ router.post("/deleteQuiz", async (req, res) => {
       const resp = await deleteQuizController(req.body._id);
       res.status(200).json(resp);
     } catch (err) {
-        console.log(err)
       res.status(400).json(err);
     }
   });
