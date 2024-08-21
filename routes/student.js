@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const { getStudentQuizController, getQuizByIdController, getProfileController, submitResultController, getOverallPerformanceController } = require("../controllers/student");
+const { verify } = require("../middleware/auth");
 
 const router = Router()
 
-router.get("/getStudentQuiz", async (req, res) => {
+router.get("/getStudentQuiz",verify, async (req, res) => {
     try {
         const token = req.query.token;
         const resp = await getStudentQuizController(token)
