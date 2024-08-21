@@ -4,19 +4,20 @@ require("dotenv").config();
 
 exports.verify = async (req, res, next) => {
   try {
-    const token = req.headers.cookie;
+    const token = req.query.token;
     const decoded = await verifyToken(token);
+    console.log("🚀 ~ exports.verify= ~ decoded:", decoded)
 
     
-    req.id = decoded.userId;
-    req.email = decoded.email;
+    // req.id = decoded.userId;
+    // req.email = decoded.email;
 
-    const user = await findUser(req.email);
+    // const user = await findUser(req.email);
 
-    if (!user) {
-      res.status(400).json("Authorization UnSuccessful!");
-      return;
-    }
+    // if (!user) {
+    //   res.status(400).json("Authorization UnSuccessful!");
+    //   return;
+    // }
     next();
   } catch (err) {
     res.status(401).json("Unauthorized");
