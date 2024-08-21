@@ -27,6 +27,6 @@ app.set("views", "views");
 
 app.use("/auth", auth);
 app.use("/admin", admin )
-app.use("/student" , student)
+app.use("/student",verify, student)
 
 app.listen(5000);
