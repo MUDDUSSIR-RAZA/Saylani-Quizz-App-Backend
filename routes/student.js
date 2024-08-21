@@ -5,6 +5,11 @@ const { verify } = require("../middleware/auth");
 const router = Router()
 
 router.get("/getStudentQuiz",verify, async (req, res) => {
+
+    console.log("🚀 -----------------------------------------------🚀")
+    console.log("🚀 ~ file: student.js:9 ~ router.get ~ req:", req.email)
+    console.log("🚀 -----------------------------------------------🚀")
+
     try {
         const token = req.query.token;
         const resp = await getStudentQuizController(token)
