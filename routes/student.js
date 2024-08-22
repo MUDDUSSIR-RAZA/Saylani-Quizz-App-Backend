@@ -4,15 +4,9 @@ const { verify } = require("../middleware/auth");
 
 const router = Router()
 
-router.get("/getStudentQuiz",verify, async (req, res) => {
-
-    console.log("🚀 -----------------------------------------------🚀")
-    console.log("🚀 ~ file: student.js:9 ~ router.get ~ req:", req.email)
-    console.log("🚀 -----------------------------------------------🚀")
-
+router.get("/getStudentQuiz", verify, async (req, res) => {
     try {
-        const token = req.query.token;
-        const resp = await getStudentQuizController(token)
+        const resp = await getStudentQuizController(req.userId)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
@@ -21,9 +15,8 @@ router.get("/getStudentQuiz",verify, async (req, res) => {
 
 router.get("/getQuizById", async (req, res) => {
     try {
-        const token = req.query.token;
         const quizId = req.query.quizId;
-        const resp = await getQuizByIdController(token, quizId)
+        const resp = await getQuizByIdController(req.userId, quizId)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
@@ -32,8 +25,7 @@ router.get("/getQuizById", async (req, res) => {
 
 router.get("/getProfile", async (req, res) => {
     try {
-        const token = req.query.token;
-        const resp = await getProfileController(token)
+        const resp = await getProfileController(req.userId)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
@@ -59,8 +51,7 @@ router.post("/submitResult", async (req, res) => {
 
 router.get("/getOverallPerformance", async (req, res) => {
     try {
-        const token = req.query.token;
-        const resp = await getOverallPerformanceController(token)
+        const resp = await getOverallPerformanceController(req.userId)
         res.status(200).json(resp)
     } catch (err) {
         res.status(404).json(err)
