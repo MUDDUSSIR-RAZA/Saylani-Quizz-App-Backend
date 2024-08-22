@@ -13,7 +13,8 @@ exports.verify = async (req, res, next) => {
 
     const decoded = await verifyToken(token);
     const user = await User.findById(decoded.userId)
-    
+    req.userId = decoded.userId;
+
     if (!user) {
       res.status(400).json("User Not Found!");
       return;
@@ -22,7 +23,6 @@ exports.verify = async (req, res, next) => {
       res.status(400).json("Unauthorized User!");
       return;
     }
-    req.userId = decoded.userId;
 
     next();
   } catch (err) {
