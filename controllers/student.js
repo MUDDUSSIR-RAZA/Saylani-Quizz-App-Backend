@@ -2,9 +2,8 @@ const { getStudentQuizModel, getQuizByIdModel, getProfileModel, submitResultMode
 
 jwt = require('jsonwebtoken');
 
-exports.getStudentQuizController = async (token) => {
+exports.getStudentQuizController = async (userId) => {
     try {
-        const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
         const resp = getStudentQuizModel(userId)
         return resp
     } catch (error) {
@@ -12,9 +11,8 @@ exports.getStudentQuizController = async (token) => {
     }
 }
 
-exports.getQuizByIdController = async (token, quizId) => {
+exports.getQuizByIdController = async (userId, quizId) => {
     try {
-        const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
         const resp = await getQuizByIdModel(userId , quizId)
         return resp
     } catch (error) {
@@ -22,9 +20,8 @@ exports.getQuizByIdController = async (token, quizId) => {
     }
 }
 
-exports.getProfileController = async (token) => {
+exports.getProfileController = async (userId) => {
     try {
-        const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
         const resp = getProfileModel(userId)
         return resp
     } catch (error) {
@@ -41,9 +38,8 @@ exports.submitResultController = async ( userId, course_name , batch , quiz_name
     }
 }
 
-exports.getOverallPerformanceController = async (token) => {
+exports.getOverallPerformanceController = async (userId) => {
     try {
-        const { userId } = await jwt.verify(token, process.env.SECRET_KEY);
         const resp = getOverallPerformanceModel(userId)
         return resp
     } catch (error) {
