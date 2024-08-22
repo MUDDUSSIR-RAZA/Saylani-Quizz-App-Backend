@@ -9,8 +9,7 @@ const student = require("./routes/student");
 
 const app = express();
 const { mongoose } = require("./model/connection");
-const { verify } = require("./middleware/auth");
-const { default: axios } = require("axios");
+const { studentVerify } = require("./middleware/auth");
 mongoose();
 
 const public = path.join(process.cwd(), "public");
@@ -27,6 +26,6 @@ app.set("views", "views");
 
 app.use("/auth", auth);
 app.use("/admin", admin )
-app.use("/student",verify, student)
+app.use("/student",studentVerify, student)
 
 app.listen(5000);
