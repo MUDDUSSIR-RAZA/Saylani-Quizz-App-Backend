@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/db/user');
 require("dotenv").config();
 
-exports.verify = async (req, res, next) => {
+exports.studentVerify = async (req, res, next) => {
   try {
     const token = req.query.token;
 
