@@ -4,7 +4,7 @@ const { verify } = require("../middleware/auth");
 
 const router = Router()
 
-router.get("/getStudentQuiz", verify, async (req, res) => {
+router.get("/getStudentQuiz", async (req, res) => {
     try {
         const resp = await getStudentQuizController(req.userId)
         res.status(200).json(resp)
