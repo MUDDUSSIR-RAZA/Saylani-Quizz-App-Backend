@@ -17,6 +17,7 @@ const courseSchema = new Schema({
     cities: [{
         type: String, required: [true, "City required."],
     }],
+    courseOpen: { type: Boolean, default: false },
 });
 
 const Course = mongoose.model('Course', courseSchema);
