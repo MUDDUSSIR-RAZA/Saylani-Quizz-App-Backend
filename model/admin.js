@@ -37,7 +37,7 @@ exports.addCourseModel = async (course_name, batch, cities) => {
             return "Course Created!";
         } catch (error) {
             if (error.name === 'ValidationError') {
-                // Iterate through each field error
+                // Iterate through each field error 
                 for (let field in error.errors) {
                     throw (error.errors[field].message);
                 }
