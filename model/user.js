@@ -26,7 +26,7 @@ exports.createUserModel = async (name, fathername, nic, email, phone, city, cour
       }
       existingUser.courses.push({ course_name, batch, city });
       await existingUser.save();
-      return "Applied For Course.";
+      return "Applied For Course."; 
 
     } else {
       const user = new User({
